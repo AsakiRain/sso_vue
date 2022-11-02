@@ -1,24 +1,20 @@
+import { apiGet, apiPost } from '@/api/api';
 import { defineStore } from 'pinia';
+import type { LoginReq, LoginRes } from '@/api/user';
 import { UserState } from './types';
 
 const useUserStore = defineStore('user', {
   state: (): UserState => ({
-    name: undefined,
-    avatar: undefined,
-    job: undefined,
-    organization: undefined,
-    location: undefined,
+    id: undefined,
+    username: undefined,
+    nickname: undefined,
     email: undefined,
-    introduction: undefined,
-    personalWebsite: undefined,
-    jobName: undefined,
-    organizationName: undefined,
-    locationName: undefined,
     phone: undefined,
-    registrationDate: undefined,
-    accountId: undefined,
-    certification: undefined,
+    avatar: undefined,
     role: '',
+    create_at: undefined,
+    update_at: undefined,
+    delete_at: undefined,
   }),
 
   getters: {
@@ -26,22 +22,26 @@ const useUserStore = defineStore('user', {
       return { ...state };
     },
   },
-
   actions: {
-    switchRoles() {
-      return new Promise((resolve) => {
-        this.role = this.role === 'user' ? 'admin' : 'user';
-        resolve(this.role);
-      });
-    },
-    // Set user's information
     setInfo(partial: Partial<UserState>) {
       this.$patch(partial);
     },
-
-    // Reset user's information
     resetInfo() {
       this.$reset();
+    },
+    async login(loginData: LoginReq) {
+      const resp = await apiPost<LoginRes>('/login', loginData);
+      const { token } = resp.data;
+      localStorage.setItem('token', token);
+      await this.getUserInfo();
+    },
+    logout() {
+      localStorage.removeItem('token');
+    },
+    async getUserInfo() {
+      const resp = await apiGet('/user/info');
+      const data = await resp.data.date;
+      this.setInfo(data);
     },
   },
 });
