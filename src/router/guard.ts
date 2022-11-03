@@ -1,14 +1,13 @@
 import type { Router, LocationQueryRaw } from 'vue-router';
-import NProgress from 'nprogress'; // progress bar
 
 import { useUserStore } from '@/store';
-import { isLogin } from '@/utils/auth';
+import NProgress from 'nprogress';
 
-export default function setupUserLoginInfoGuard(router: Router) {
+export default function createRouteGuard(router: Router) {
   router.beforeEach(async (to, from, next) => {
     NProgress.start();
     const userStore = useUserStore();
-    if (isLogin()) {
+    if (localStorage.getItem('token')) {
       if (userStore.role) {
         next();
       } else {
@@ -39,5 +38,8 @@ export default function setupUserLoginInfoGuard(router: Router) {
         } as LocationQueryRaw,
       });
     }
+  });
+  router.afterEach(() => {
+    NProgress.done();
   });
 }

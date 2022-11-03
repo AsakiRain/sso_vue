@@ -112,18 +112,10 @@
           </a-avatar>
           <template #content>
             <a-doption>
-              <a-space @click="switchRoles">
-                <icon-tag />
-                <span>
-                  {{ $t('messageBox.switchRoles') }}
-                </span>
-              </a-space>
-            </a-doption>
-            <a-doption>
               <a-space @click="$router.push({ name: 'Info' })">
                 <icon-user />
                 <span>
-                  {{ $t('messageBox.userCenter') }}
+                  {{ $t('navbar.user.userCenter') }}
                 </span>
               </a-space>
             </a-doption>
@@ -131,7 +123,7 @@
               <a-space @click="$router.push({ name: 'Setting' })">
                 <icon-settings />
                 <span>
-                  {{ $t('messageBox.userSettings') }}
+                  {{ $t('navbar.user.userSettings') }}
                 </span>
               </a-space>
             </a-doption>
@@ -139,7 +131,7 @@
               <a-space @click="handleLogout">
                 <icon-export />
                 <span>
-                  {{ $t('messageBox.logout') }}
+                  {{ $t('navbar.user.logout') }}
                 </span>
               </a-space>
             </a-doption>
@@ -152,7 +144,6 @@
 
 <script lang="ts" setup>
   import { computed, ref, inject } from 'vue';
-  import { Message } from '@arco-design/web-vue';
   import { useDark, useToggle, useFullscreen } from '@vueuse/core';
   import { useAppStore, useUserStore } from '@/store';
   import { LOCALE_OPTIONS } from '@/locale';
@@ -189,16 +180,7 @@
   const setVisible = () => {
     appStore.updateSettings({ globalSettings: true });
   };
-  const refBtn = ref();
   const triggerBtn = ref();
-  const setPopoverVisible = () => {
-    const event = new MouseEvent('click', {
-      view: window,
-      bubbles: true,
-      cancelable: true,
-    });
-    refBtn.value.dispatchEvent(event);
-  };
   const handleLogout = () => {
     logout();
   };
@@ -209,10 +191,6 @@
       cancelable: true,
     });
     triggerBtn.value.dispatchEvent(event);
-  };
-  const switchRoles = async () => {
-    const res = await userStore.switchRoles();
-    Message.success(res as string);
   };
   const toggleDrawerMenu = inject('toggleDrawerMenu');
 </script>

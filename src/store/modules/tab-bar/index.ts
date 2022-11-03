@@ -5,7 +5,6 @@ import {
   DEFAULT_ROUTE_NAME,
   REDIRECT_ROUTE_NAME,
 } from '@/router/constants';
-import { isString } from '@/utils/is';
 import { TabBarState, TagProps } from './types';
 
 const formatTag = (route: RouteLocationNormalized): TagProps => {
@@ -49,7 +48,7 @@ const useAppStore = defineStore('tabBar', {
       this.cacheTabList.delete(tag.name);
     },
     addCache(name: string) {
-      if (isString(name) && name !== '') this.cacheTabList.add(name);
+      if (typeof name === 'string' && name !== '') this.cacheTabList.add(name);
     },
     deleteCache(tag: TagProps) {
       this.cacheTabList.delete(tag.name);

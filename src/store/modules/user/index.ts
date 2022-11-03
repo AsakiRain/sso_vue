@@ -33,12 +33,11 @@ const useUserStore = defineStore('user', {
       const resp = await apiPost<LoginRes>('/login', loginData);
       const { token } = resp.data;
       localStorage.setItem('token', token);
-      await this.getUserInfo();
     },
     logout() {
       localStorage.removeItem('token');
     },
-    async getUserInfo() {
+    async info() {
       const resp = await apiGet('/user/info');
       const data = await resp.data.date;
       this.setInfo(data);

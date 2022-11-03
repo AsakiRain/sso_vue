@@ -1,10 +1,9 @@
 <script lang="tsx">
-  import { defineComponent, ref, h, compile, computed } from 'vue';
+  import { defineComponent, ref, h, compile, computed, watch } from 'vue';
   import { useI18n } from 'vue-i18n';
   import { useRoute, useRouter, RouteRecordRaw } from 'vue-router';
   import type { RouteMeta } from 'vue-router';
   import { useAppStore } from '@/store';
-  import { listenerRouteChange } from '@/utils/route-listener';
   import { openWindow, regexUrl } from '@/utils';
   import useMenuTree from './use-menu-tree';
 
@@ -72,21 +71,27 @@
         });
         return result;
       };
-      listenerRouteChange((newRoute) => {
-        const { requiresAuth, activeMenu, hideInMenu } = newRoute.meta;
-        if (requiresAuth && (!hideInMenu || activeMenu)) {
-          const menuOpenKeys = findMenuOpenKeys(
-            (activeMenu || newRoute.name) as string
-          );
+      watch(
+        () => router.currentRoute.value,
+        (newRoute) => {
+          const { requiresAuth, activeMenu, hideInMenu } = newRoute.meta;
+          if (requiresAuth && (!hideInMenu || activeMenu)) {
+            const menuOpenKeys = findMenuOpenKeys(
+              (activeMenu || newRoute.name) as string
+            );
 
-          const keySet = new Set([...menuOpenKeys, ...openKeys.value]);
-          openKeys.value = [...keySet];
+            const keySet = new Set([...menuOpenKeys, ...openKeys.value]);
+            openKeys.value = [...keySet];
 
-          selectedKey.value = [
-            activeMenu || menuOpenKeys[menuOpenKeys.length - 1],
-          ];
+            selectedKey.value = [
+              activeMenu || menuOpenKeys[menuOpenKeys.length - 1],
+            ];
+          }
+        },
+        {
+          immediate: true,
         }
-      }, true);
+      );
       const setCollapse = (val: boolean) => {
         if (appStore.device === 'desktop')
           appStore.updateSettings({ menuCollapse: val });
@@ -125,6 +130,7 @@
           }
           return nodes;
         }
+
         return travel(menuTree.value);
       };
 
@@ -153,6 +159,7 @@
       display: flex;
       align-items: center;
     }
+
     .arco-icon {
       &:not(.arco-icon-down) {
         font-size: 18px;

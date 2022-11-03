@@ -19,15 +19,13 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, computed, watch, onUnmounted } from 'vue';
+  import { ref, computed, watch } from 'vue';
   import type { RouteLocationNormalized } from 'vue-router';
-  import {
-    listenerRouteChange,
-    removeRouteListener,
-  } from '@/utils/route-listener';
   import { useAppStore, useTabBarStore } from '@/store';
+  import { useRouter } from 'vue-router';
   import tabItem from './tab-item.vue';
 
+  const router = useRouter();
   const appStore = useAppStore();
   const tabBarStore = useTabBarStore();
 
@@ -45,33 +43,38 @@
       affixRef.value.updatePosition();
     }
   );
-  listenerRouteChange((route: RouteLocationNormalized) => {
-    if (
-      !route.meta.noAffix &&
-      !tagList.value.some((tag) => tag.fullPath === route.fullPath)
-    ) {
-      tabBarStore.updateTabList(route);
+  watch(
+    () => router.currentRoute.value,
+    (route: RouteLocationNormalized) => {
+      if (
+        !route.meta.noAffix &&
+        !tagList.value.some((tag) => tag.fullPath === route.fullPath)
+      ) {
+        tabBarStore.updateTabList(route);
+      }
+    },
+    {
+      immediate: true,
     }
-  }, true);
-
-  onUnmounted(() => {
-    removeRouteListener();
-  });
+  );
 </script>
 
 <style scoped lang="less">
   .tab-bar-container {
     position: relative;
     background-color: var(--color-bg-2);
+
     .tab-bar-box {
       display: flex;
       padding: 0 0 0 20px;
       background-color: var(--color-bg-2);
       border-bottom: 1px solid var(--color-border);
+
       .tab-bar-scroll {
         height: 32px;
         flex: 1;
         overflow: hidden;
+
         .tags-wrap {
           padding: 4px 0;
           height: 48px;
@@ -83,6 +86,7 @@
             align-items: center;
             margin-right: 6px;
             cursor: pointer;
+
             &:first-child {
               .arco-tag-close-btn {
                 display: none;

@@ -1,17 +1,8 @@
 <template>
-  <div class="container">
-    <div class="left-side">
-      <div class="panel">
-        <Banner />
-      </div>
-    </div>
-    <div class="right-side"> </div>
-  </div>
+  <div class="container"> </div>
 </template>
 
-<script lang="ts" setup>
-  import Banner from './components/banner.vue';
-</script>
+<script lang="ts" setup></script>
 
 <script lang="ts">
   export default {
@@ -22,8 +13,7 @@
 <style lang="less" scoped>
   .container {
     background-color: var(--color-fill-2);
-    padding: 16px 20px;
-    padding-bottom: 0;
+    padding: 16px 20px 0;
     display: flex;
   }
 
@@ -42,6 +32,7 @@
     border-radius: 4px;
     overflow: auto;
   }
+
   :deep(.panel-border) {
     margin-bottom: 0;
     border-bottom: 1px solid rgb(var(--gray-2));
@@ -54,6 +45,7 @@
     .container {
       display: block;
     }
+
     .right-side {
       // display: none;
       width: 100%;
