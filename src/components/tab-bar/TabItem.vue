@@ -135,7 +135,7 @@
 
       tabBarStore.freshTabList(copyTagList);
       if (currentRouteIdx < index) {
-        router.push({ name: itemData.name });
+        await router.push({ name: itemData.name });
       }
     } else if (value === Eaction.right) {
       const currentRouteIdx = findCurrentRouteIndex();
@@ -143,14 +143,14 @@
 
       tabBarStore.freshTabList(copyTagList);
       if (currentRouteIdx > index) {
-        router.push({ name: itemData.name });
+        await router.push({ name: itemData.name });
       }
     } else if (value === Eaction.others) {
       const filterList = tagList.value.filter((el, idx) => {
         return idx === 0 || idx === props.index;
       });
       tabBarStore.freshTabList(filterList);
-      router.push({ name: itemData.name });
+      await router.push({ name: itemData.name });
     } else if (value === Eaction.reload) {
       tabBarStore.deleteCache(itemData);
       await router.push({
@@ -162,7 +162,7 @@
       tabBarStore.addCache(itemData.name);
     } else {
       tabBarStore.resetTabList();
-      router.push({ name: DEFAULT_ROUTE_NAME });
+      await router.push({ name: DEFAULT_ROUTE_NAME });
     }
   };
 </script>

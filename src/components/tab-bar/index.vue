@@ -4,7 +4,7 @@
       <div class="tab-bar-box">
         <div class="tab-bar-scroll">
           <div class="tags-wrap">
-            <tab-item
+            <TabItem
               v-for="(tag, index) in tagList"
               :key="tag.fullPath"
               :index="index"
@@ -23,7 +23,7 @@
   import type { RouteLocationNormalized } from 'vue-router';
   import { useAppStore, useTabBarStore } from '@/store';
   import { useRouter } from 'vue-router';
-  import tabItem from './tab-item.vue';
+  import TabItem from './TabItem.vue';
 
   const router = useRouter();
   const appStore = useAppStore();

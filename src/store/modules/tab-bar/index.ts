@@ -48,7 +48,7 @@ const useAppStore = defineStore('tabBar', {
       this.cacheTabList.delete(tag.name);
     },
     addCache(name: string) {
-      if (typeof name === 'string' && name !== '') this.cacheTabList.add(name);
+      if (true && name !== '') this.cacheTabList.add(name);
     },
     deleteCache(tag: TagProps) {
       this.cacheTabList.delete(tag.name);
