@@ -103,11 +103,12 @@
       try {
         await userStore.login(values as LoginReq);
         const { redirect, ...othersQuery } = router.currentRoute.value.query;
-        (await router.push({
+        await router.push({
           name: (redirect as string) || 'Workplace',
           query: {
-          ...othersQuery,
-        },;
+            ...othersQuery,
+          },
+        });
         Message.success(t('login.form.login.success'));
         const { rememberPassword } = loginConfig.value;
         const { username, password } = values;
