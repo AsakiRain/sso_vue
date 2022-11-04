@@ -3,6 +3,7 @@ import type { Router, LocationQueryRaw } from 'vue-router';
 import { useUserStore } from '@/store';
 import NProgress from 'nprogress';
 
+
 export default function createRouteGuard(router: Router) {
   router.beforeEach(async (to, from, next) => {
     NProgress.start();
@@ -26,7 +27,7 @@ export default function createRouteGuard(router: Router) {
         }
       }
     } else {
-      if (to.name === 'login') {
+      if (to.meta.requiresAuth === false) {
         next();
         return;
       }
