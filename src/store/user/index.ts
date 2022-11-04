@@ -5,16 +5,16 @@ import { UserState } from './types';
 
 const useUserStore = defineStore('user', {
   state: (): UserState => ({
-    id: undefined,
+    uid: undefined,
     username: undefined,
     nickname: undefined,
     email: undefined,
     phone: undefined,
     avatar: undefined,
     role: '',
-    create_at: undefined,
-    update_at: undefined,
-    delete_at: undefined,
+    created_at: undefined,
+    updated_at: undefined,
+    deleted_at: undefined,
   }),
 
   getters: {
@@ -39,7 +39,7 @@ const useUserStore = defineStore('user', {
     },
     async info() {
       const resp = await apiGet('/user/info');
-      const data = await resp.data.date;
+      const data = await resp.data;
       this.setInfo(data);
     },
   },
