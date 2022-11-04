@@ -2,13 +2,68 @@
   <div class="container">
     <Breadcrumb :items="['menu.user', 'menu.user.info']" />
     <div class="content">
-      <div class="content-left"> </div>
-      <div class="content-right"> </div>
+      <a-descriptions
+        :data="data"
+        size="large"
+        :title="t('user.info.title')"
+        bordered
+        :column="1"
+      />
     </div>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+  import { useUserStore } from '@/store';
+  import { useI18n } from 'vue-i18n';
+  import { DescData } from '@arco-design/web-vue';
+
+  const { t } = useI18n();
+  const userStore = useUserStore();
+  const userInfo = userStore;
+  const data = [
+    {
+      label: () => t('user.info.uid'),
+      value: userInfo.uid,
+    },
+    {
+      label: () => t('user.info.username'),
+      value: userInfo.username,
+    },
+    {
+      label: () => t('user.info.nickname'),
+      value: userInfo.nickname,
+    },
+    {
+      label: () => t('user.info.email'),
+      value: userInfo.email,
+    },
+    {
+      label: () => t('user.info.phone'),
+      value: userInfo.phone,
+    },
+    {
+      label: () => t('user.info.avatar'),
+      value: userInfo.avatar,
+    },
+    {
+      label: () => t('user.info.role'),
+      value: userInfo.role,
+    },
+    {
+      label: () => t('user.info.created_at'),
+      value: userInfo.created_at,
+    },
+    {
+      label: () => t('user.info.updated_at'),
+      value: userInfo.updated_at,
+    },
+    {
+      label: () => t('user.info.deleted_at'),
+      value: userInfo.deleted_at,
+    },
+  ] as DescData[];
+</script>
 
 <script lang="ts">
   export default {
