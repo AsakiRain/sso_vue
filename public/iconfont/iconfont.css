@@ -1,0 +1,23 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3856022 */
+  src: url('iconfont.woff2?t=1673203539295') format('woff2'),
+       url('iconfont.woff?t=1673203539295') format('woff'),
+       url('iconfont.ttf?t=1673203539295') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-moon:before {
+  content: "\e653";
+}
+
+.icon-sun:before {
+  content: "\e67c";
+}
+

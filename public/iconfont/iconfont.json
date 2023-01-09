@@ -1,0 +1,23 @@
+{
+  "id": "3856022",
+  "name": "fsuser",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "7715054",
+      "name": "moon",
+      "font_class": "moon",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "7715184",
+      "name": "sun",
+      "font_class": "sun",
+      "unicode": "e67c",
+      "unicode_decimal": 59004
+    }
+  ]
+}

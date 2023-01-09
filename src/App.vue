@@ -1,29 +1,35 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <router-view/>
 </template>
+<script setup lang="ts"></script>
+<style>
+  * {
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+  }
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+  body {
+    height: 100vh;
+  }
+
+  #app {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  #app::before {
+    content: '';
+    position: fixed;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background-image: url("/img/back-dark.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: blur(6px);
+    z-index: -1;
+  }
 </style>
