@@ -60,19 +60,21 @@
                 </template>
               </a-input>
             </a-form-item>
-            <div class="etc-col">
+            <div class="etc-wrapper">
               <a-checkbox>记住我</a-checkbox>
-              <a href="/login">忘记密码</a>
+              <a @click="$router.push('/login')">忘记密码</a>
             </div>
-            <a-form-item :wrapper-col="{ offset: 0, span: 24 }">
+            <div class="btn-wrapper">
               <a-button
                 type="primary"
                 html-type="submit"
-                block
                 :loading="isLoading"
-                >登录</a-button
+                block
               >
-            </a-form-item>
+                登录
+              </a-button>
+              <a-button block @click="$router.push('/reg/0')">注册</a-button>
+            </div>
           </a-form>
         </a-tab-pane>
         <a-tab-pane key="2" tab="QQ登录" class="panel-item">
@@ -147,7 +149,7 @@ const handleLogin = async (loginForm: LoginForm) => {
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.6);
 }
 .panel-item {
-  padding: 24px;
+  padding: 0 24px;
   width: 320px;
 }
 
@@ -157,9 +159,16 @@ const handleLogin = async (loginForm: LoginForm) => {
   align-items: center;
 }
 
-.etc-col {
+.etc-wrapper {
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;
+}
+
+.btn-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  margin-bottom: 16px;
 }
 </style>

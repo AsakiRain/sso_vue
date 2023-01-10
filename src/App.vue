@@ -25,6 +25,7 @@ const locale = computed(() => {
 html {
   --backgroud-color: #ffffff;
   --text-color: #262626;
+  --sub-text-color: #ababab;
   --a-text-color: #458bff;
   --a-hover-color: #40a9ff;
   --hover-backgroud-color: #eeeeee;
@@ -36,6 +37,7 @@ html {
 html.dark {
   --backgroud-color: #141414;
   --text-color: #dcdcdc;
+  --sub-text-color: #ababab;
   --a-text-color: #3c79dc;
   --a-hover-color: #40a9ff;
   --hover-backgroud-color: #424242;
