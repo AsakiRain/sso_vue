@@ -1,7 +1,13 @@
-import { apiGet, apiPost } from '@/api/index';
-import { MyRes } from '@/models';
-import type { CodeForm, CodeRes } from '@/models/email';
+import { apiPost } from "@/api/index";
+import { MyRes } from "@/models";
+import type { CodeForm, CodeRes } from "@/models/email";
+import { message } from "ant-design-vue";
 
 const sendCode = async (codeForm: CodeForm): Promise<MyRes<CodeRes>> => {
-  return await apiPost('/email/code', codeForm);
+  const res = await apiPost("/email/code", codeForm);
+  if (res.code !== 200) {
+    message.error(res.message);
+    return Promise.reject(res.message);
+  }
+  return res;
 };

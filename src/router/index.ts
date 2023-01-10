@@ -13,12 +13,19 @@ const routes: Array<RouteRecordRaw> = [
     path: "/reg",
     name: "Reg",
     component: () => import("@/views/reg/index.vue"),
+    meta: {
+      title: "route.reg.index",
+      step: 0,
+    },
     children: [
       {
-        path: "1",
+        path: "flow/1",
         name: "RegStep1",
         component: () => import("@/views/reg/Step1.vue"),
-        meta: {},
+        meta: {
+          title: "route.reg.step1",
+          step: 1,
+        },
       },
     ],
   },
