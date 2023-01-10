@@ -17,7 +17,9 @@
         </router-link>
       </div>
       <div id="tool-bar">
-        <a-button shape="circle" size="middle">D</a-button>
+        <a-button shape="circle" size="middle" @click="toggleDark()"
+          >D</a-button
+        >
         <a-dropdown :trigger="['click']">
           <a-button shape="circle" size="middle">
             <template #icon><TranslationOutlined /></template>
@@ -75,15 +77,18 @@ import useUserStore from "@/store/user";
 import { useRouter } from "vue-router";
 import { message } from "ant-design-vue";
 import { useI18n } from "vue-i18n";
-import type { RouteLink } from "@/models";
+import useDark from "@/utils/useDark";
 import useLocale from "@/utils/useLocale";
 
 const userStore = useUserStore();
 const router = useRouter();
 const { changeLocale } = useLocale();
+const { toggleDark } = useDark();
 const { t } = useI18n();
 
-onMounted(async () => {});
+onMounted(async () => {
+  await userStore.info();
+});
 
 const handleLogout = async () => {
   await userStore.logout();
@@ -101,7 +106,7 @@ const handleLogout = async () => {
   z-index: 2;
   display: flex;
   justify-content: center;
-  background-color: #ffffff;
+  background-color: var(--backgroud-color);
 }
 
 #header-content {
@@ -128,7 +133,7 @@ const handleLogout = async () => {
 .nav-link {
   padding: 0 16px;
   text-decoration: none;
-  color: #1f1f1f;
+  color: var(--text-color);
   transition: 0.28s background-color cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -139,11 +144,14 @@ const handleLogout = async () => {
 }
 
 .nav-link:hover {
-  background-color: #eeeeee;
+  background-color: var(--hover-backgroud-color);
+  color: var(--a-hover-color);
 }
 
 #tool-bar {
   margin: 0 16px 0 16px;
+  display: flex;
+  column-gap: 8px;
 }
 
 #user-bar {
@@ -154,8 +162,7 @@ const handleLogout = async () => {
 
 #footer {
   text-align: center;
-  height: 16px;
-  line-height: 1;
+  color: var(--footer-color);
 }
 
 #bar-username {
@@ -174,7 +181,7 @@ const handleLogout = async () => {
   align-self: start;
   width: 200px;
   margin: 16px;
-  background-color: #ffffff;
+  background-color: var(--backgroud-color);
   display: flex;
   flex-direction: column;
   border-radius: 8px;
@@ -190,13 +197,13 @@ const handleLogout = async () => {
   font-size: 16px;
   text-align: center;
   padding: 16px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .content {
   flex-grow: 1;
-  background-color: #ffffff;
-  margin: 16px 16px 16px 0;
+  background-color: var(--backgroud-color);
+  margin: 16px 16px 0 16px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -209,6 +216,38 @@ const handleLogout = async () => {
   font-size: 16px;
   text-align: center;
   padding: 16px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+@media (max-width: 1200px) {
+  #header-content {
+    width: 100vw;
+  }
+
+  .main {
+    width: 100% !important;
+  }
+
+  .content {
+    margin: 0;
+    border-radius: 0;
+    border-top: 1px solid var(--border-color);
+  }
+
+  #footer {
+    border-top: 1px solid var(--border-color);
+    background-color: var(--backgroud-color);
+  }
+
+  .content-title {
+    display: none;
+  }
+
+  #route-title {
+    display: inline;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+  }
 }
 </style>
