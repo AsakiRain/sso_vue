@@ -169,6 +169,9 @@ code {
 }
 .step-wrapper,
 .wizard-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 150px;
   border-right: 1px solid var(--border-color);
   flex-shrink: 0;
