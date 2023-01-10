@@ -1,6 +1,6 @@
 <template>
   <div id="reg-page">
-    <div id="reg-content" v-if="">
+    <div id="reg-content">
       <div id="step-wrapper">
         <a-steps v-model:current="current" direction="vertical">
           <a-step title="Step 1" description="用户条款" />
