@@ -49,8 +49,7 @@
                 },
               ]"
             >
-              <a-input
-                type="password"
+              <a-input-password
                 autocomplete="current-password"
                 v-model:value="loginForm.password"
                 @keyup.enter="handleLogin"
@@ -58,7 +57,7 @@
                 <template #prefix>
                   <LockOutlined />
                 </template>
-              </a-input>
+              </a-input-password>
             </a-form-item>
             <div class="etc-wrapper">
               <a-checkbox>记住我</a-checkbox>

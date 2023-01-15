@@ -85,7 +85,7 @@
 </template>
 <script lang="ts" setup>
 import router from "@/router";
-import { computed, h, ref } from "vue";
+import { computed, h } from "vue";
 import { Empty, message, Modal } from "ant-design-vue";
 import reg from "@/api/reg";
 import { findStepName } from "@/utils/useRegStep";
@@ -241,5 +241,11 @@ code {
 }
 .flex-padder {
   flex-grow: 1;
+}
+.step-form {
+  flex-grow: 1;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
 }
 </style>

@@ -1,6 +1,8 @@
 import { apiGet, apiPost } from "@/api/index";
 import { MyRes } from "@/models";
 import type {
+  AccountForm,
+  AccountReq,
   EmailForm,
   EmailRes,
   SerialRes,
@@ -58,4 +60,18 @@ const postEmailForm = async (
   }
   return res;
 };
-export default { getSerial, postTosForm, postEmailForm };
+
+const postAccountForm = async (
+  accountReq: AccountReq
+): Promise<MyRes<EmailRes>> => {
+  const res = await apiPost("reg/flow/2", accountReq);
+  if (res.code !== 20000) {
+    message.error(res.message);
+    checkExistence(res);
+    checkMisMatch(res);
+    return Promise.reject(res);
+  }
+  return res;
+};
+
+export default { getSerial, postTosForm, postEmailForm, postAccountForm };

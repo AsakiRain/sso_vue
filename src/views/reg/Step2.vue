@@ -30,7 +30,15 @@
             },
           ]"
         >
-          <a-input v-model:value="emailForm.email" placeholder="请输入邮箱" />
+          <a-input
+            v-model:value="emailForm.email"
+            placeholder="请输入邮箱"
+            autocomplete="email"
+          >
+            <template #prefix>
+              <MailOutlined />
+            </template>
+          </a-input>
         </a-form-item>
         <a-form-item
           name="code"
@@ -46,7 +54,12 @@
             <a-input
               v-model:value="emailForm.code"
               placeholder="请输入验证码"
-            />
+              autocompete="one-time-code"
+            >
+              <template #prefix>
+                <NumberOutlined />
+              </template>
+            </a-input>
             <a-button
               type="primary"
               @click="handleGetCode"
@@ -81,6 +94,7 @@ import { useRouter } from "vue-router";
 import reg from "@/api/reg";
 import email from "@/api/email";
 import useTimer from "@/utils/useTimer";
+import { MailOutlined, NumberOutlined } from "@ant-design/icons-vue";
 
 const router = useRouter();
 const { val: isLoading, set: setLoading } = useToggle(false);
@@ -152,12 +166,6 @@ const handleStepEmail = async (emailForm: EmailForm) => {
 </script>
 
 <style>
-#email-form {
-  flex-grow: 1;
-  width: 350px;
-  display: flex;
-  flex-direction: column;
-}
 #code-row {
   display: flex;
   column-gap: 4px;

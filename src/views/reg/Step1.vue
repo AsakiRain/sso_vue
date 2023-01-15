@@ -108,4 +108,8 @@ const data = [
 ];
 </script>
 
-<style scoped></style>
+<style scoped>
+#tos-form{
+  flex-grow: 0;
+}
+</style>
