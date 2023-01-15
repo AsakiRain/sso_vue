@@ -73,7 +73,7 @@
               >
                 登录
               </a-button>
-              <a-button block @click="$router.push('/reg/0')">注册</a-button>
+              <a-button block @click="$router.push('/reg')">注册</a-button>
             </div>
           </a-form>
         </a-tab-pane>

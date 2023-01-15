@@ -51,9 +51,9 @@
               <p>
                 网站<code>使用用户名</code>登录，因此注册用的邮箱是<code>可以重复</code>的。
               </p>
-              <p>
+              <!-- <p>
                 填写的用户名直到完成注册流程之前都<code>不会</code>被占用，所以如果你没有注册完，可以用<code>同样的</code>邮箱和账号重新开始注册
-              </p>
+              </p> -->
               <p>
                 点击<code>开始注册</code>，将会生成一个<code>流水号</code>，并凭流水号完成整个注册流程
               </p>
@@ -234,9 +234,12 @@ code {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  row-gap: 24px;
 }
 .step-description {
   font-size: 18px;
+}
+.flex-padder {
   flex-grow: 1;
 }
 </style>
