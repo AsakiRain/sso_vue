@@ -98,9 +98,8 @@ const accountForm = reactive<AccountForm>({
   serial: localStorage.reg_serial,
 });
 
-const handleStepAcount = async (emailForm: EmailForm) => {
+const handleStepAcount = async (accountForm: AccountForm) => {
   setLoading(true);
-  console.log(emailForm);
   try {
     const res = await reg.postAccountForm({
       username: accountForm.username,
@@ -154,11 +153,11 @@ const rules: Record<string, Rule[]> = {
       message: "请再次输入密码",
     },
     {
-      validator: (rule, value, callback) => {
-        if (accountForm.password !== accountForm.password_confirm) {
-          callback("两次密码输入不一致");
+      validator: (_rule, value, _callback) => {
+        if (accountForm.password !== value) {
+          return Promise.reject("两次密码输入不一致")
         } else {
-          callback();
+          return Promise.resolve();
         }
       },
     },

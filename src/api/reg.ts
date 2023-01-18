@@ -64,7 +64,7 @@ const postEmailForm = async (
 const postAccountForm = async (
   accountReq: AccountReq
 ): Promise<MyRes<EmailRes>> => {
-  const res = await apiPost("reg/flow/2", accountReq);
+  const res = await apiPost("reg/flow/3", accountReq);
   if (res.code !== 20000) {
     message.error(res.message);
     checkExistence(res);
