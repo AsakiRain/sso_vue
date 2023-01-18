@@ -14,22 +14,10 @@
         :label-col="{ span: 5 }"
         :wrapper-col="{ span: 19 }"
         :model="emailForm"
+        :rules="rules"
         @finish="handleStepEmail"
       >
-        <a-form-item
-          name="email"
-          label="邮箱"
-          :rules="[
-            {
-              required: true,
-              message: '请输入邮箱',
-            },
-            {
-              type: 'email',
-              message: '请输入正确的邮箱',
-            },
-          ]"
-        >
+        <a-form-item name="email" label="邮箱">
           <a-input
             v-model:value="emailForm.email"
             placeholder="请输入邮箱"
@@ -40,16 +28,7 @@
             </template>
           </a-input>
         </a-form-item>
-        <a-form-item
-          name="code"
-          label="验证码"
-          :rules="[
-            {
-              required: true,
-              message: '请输入验证码',
-            },
-          ]"
-        >
+        <a-form-item name="code" label="验证码">
           <div id="code-row">
             <a-input
               v-model:value="emailForm.code"
@@ -95,6 +74,7 @@ import reg from "@/api/reg";
 import email from "@/api/email";
 import useTimer from "@/utils/useTimer";
 import { MailOutlined, NumberOutlined } from "@ant-design/icons-vue";
+import { Rule } from "ant-design-vue/es/form/interface";
 
 const router = useRouter();
 const { val: isLoading, set: setLoading } = useToggle(false);
@@ -152,7 +132,6 @@ const handleGetCode = async () => {
 
 const handleStepEmail = async (emailForm: EmailForm) => {
   setLoading(true);
-  console.log(emailForm);
   try {
     const res = await reg.postEmailForm(emailForm);
     localStorage.reg_step = 2;
@@ -162,6 +141,25 @@ const handleStepEmail = async (emailForm: EmailForm) => {
   } finally {
     setLoading(false);
   }
+};
+
+const rules: Record<string, Rule[]> = {
+  email: [
+    {
+      required: true,
+      message: "请输入邮箱",
+    },
+    {
+      type: "email",
+      message: "请输入正确的邮箱",
+    },
+  ],
+  code: [
+    {
+      required: true,
+      message: "请输入验证码",
+    },
+  ],
 };
 </script>
 
