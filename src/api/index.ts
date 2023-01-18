@@ -18,7 +18,7 @@ api.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     return config;
   },
-  (error: any) => {
+  (error) => {
     console.log(error);
     return Promise.reject(error);
   }
@@ -27,7 +27,7 @@ api.interceptors.response.use(
   (response: AxiosResponse) => {
     return response.data;
   },
-  (error: any) => {
+  (error) => {
     if (error.response.status.toString().startsWith(5)) {
       // 若返回5开头的错误，服务器不一定有返回数据，所以额外判断
       message.error(error.response?.data.message || "服务器错误");
@@ -45,18 +45,18 @@ api.interceptors.response.use(
   }
 );
 
-const apiPost = <T = any>(
+const apiPost = <T = unknown>(
   url: string,
-  data?: any,
-  config?: any
+  data?: object,
+  config?: object
 ): Promise<MyRes<T>> => {
   return api.post(url, data, { ...config });
 };
 
-const apiGet = <T = any>(
+const apiGet = <T = unknown>(
   url: string,
-  params?: any,
-  config?: any
+  params?: object,
+  config?: object
 ): Promise<MyRes<T>> => {
   return api.get(url, { params, ...config });
 };

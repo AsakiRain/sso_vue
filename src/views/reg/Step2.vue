@@ -72,7 +72,7 @@ import { onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
 import reg from "@/api/reg";
 import email from "@/api/email";
-import useTimer from "@/utils/useTimer";
+import Timer from "@/utils/useTimer";
 import { MailOutlined, NumberOutlined } from "@ant-design/icons-vue";
 import { Rule } from "ant-design-vue/es/form/interface";
 
@@ -81,7 +81,7 @@ const { val: isLoading, set: setLoading } = useToggle(false);
 const { val: isGeting, set: setGeting } = useToggle(false);
 const { val: isCooling, set: setCooling } = useToggle(false);
 
-const timer = new useTimer({
+const timer = new Timer({
   name: "email_code",
   memory: true,
   immediate: false,
@@ -90,10 +90,10 @@ const timer = new useTimer({
   onStart: () => {
     setCooling(true);
   },
-  trigger: (timer: useTimer) => {
+  trigger: (timer: Timer) => {
     return timer.num.value === 0;
   },
-  onTrigger: (timer: useTimer) => {
+  onTrigger: (timer: Timer) => {
     timer.stop();
     setCooling(false);
   },
@@ -123,6 +123,7 @@ const handleGetCode = async () => {
     message.success(res.message);
     timer.reset();
     timer.start();
+    // eslint-disable-next-line
   } catch (err: any) {
     console.log(err.message);
   } finally {
@@ -136,6 +137,7 @@ const handleStepEmail = async (emailForm: EmailForm) => {
     const res = await reg.postEmailForm(emailForm);
     localStorage.reg_step = 2;
     router.push(res.data.url);
+    // eslint-disable-next-line
   } catch (err: any) {
     console.log(err.message);
   } finally {

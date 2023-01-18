@@ -66,7 +66,7 @@
 </template>
 
 <script lang="ts" setup>
-import { AccountForm, EmailForm } from "@/models/reg";
+import { AccountForm } from "@/models/reg";
 import useToggle from "@/utils/useToggle";
 import { message } from "ant-design-vue";
 import { onMounted, reactive } from "vue";
@@ -109,6 +109,7 @@ const handleStepAcount = async (accountForm: AccountForm) => {
     });
     localStorage.reg_step = 3;
     router.push(res.data.url);
+    // eslint-disable-next-line
   } catch (err: any) {
     console.log(err.message);
   } finally {
@@ -134,8 +135,8 @@ const rules: Record<string, Rule[]> = {
     },
     {
       pattern: /^.{1,20}$/,
-      message: "昵称必须为1-20位字符"
-    }
+      message: "昵称必须为1-20位字符",
+    },
   ],
   password: [
     {
@@ -153,9 +154,10 @@ const rules: Record<string, Rule[]> = {
       message: "请再次输入密码",
     },
     {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       validator: (_rule, value, _callback) => {
         if (accountForm.password !== value) {
-          return Promise.reject("两次密码输入不一致")
+          return Promise.reject("两次密码输入不一致");
         } else {
           return Promise.resolve();
         }

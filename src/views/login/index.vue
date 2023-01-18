@@ -93,7 +93,6 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
 import useToggle from "@/utils/useToggle";
 import useUserStore from "@/store/user";
 import { useRouter } from "vue-router";
-import { message } from "ant-design-vue";
 
 const userStore = useUserStore();
 const router = useRouter();

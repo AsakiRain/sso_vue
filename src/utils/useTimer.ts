@@ -1,37 +1,38 @@
 import { Ref, ref } from "vue";
 interface TimerOption {
-  name: string | undefined;
-  memory: Boolean | undefined;
-  immediate: Boolean | undefined;
+  name: string;
+  memory: boolean;
+  immediate: boolean;
   num: number;
   type: "up" | "down";
   step: number;
-  init: Function | undefined;
-  onStart: Function | undefined;
-  onTick: Function | undefined;
-  trigger: Function | undefined;
-  onTrigger: Function | undefined;
-  onStop: Function | undefined;
+  init: (timer: Timer) => void;
+  onStart: (timer: Timer) => void;
+  onTick: (timer: Timer) => void;
+  trigger: (timer: Timer) => boolean;
+  onTrigger: (timer: Timer) => void;
+  onStop: (timer: Timer) => void;
 }
 
-class useTimer {
+class Timer {
   name: string;
-  memory: Boolean;
-  immediate: Boolean;
+  memory: boolean;
+  immediate: boolean;
   num: Ref<number>;
   type: Ref<"up" | "down">;
   step: number;
-  init: Function | undefined;
-  onStart: Function | undefined;
-  onTick: Function | undefined;
-  trigger: Function | undefined;
-  onTrigger: Function | undefined;
-  onStop: Function | undefined;
+  init: ((timer: Timer) => void) | undefined;
+  onStart: ((timer: Timer) => void) | undefined;
+  onTick: ((timer: Timer) => void) | undefined;
+  trigger: ((timer: Timer) => boolean) | undefined;
+  onTrigger: ((timer: Timer) => void) | undefined;
+  onStop: ((timer: Timer) => void) | undefined;
 
   initialNum: number;
   initialType: "up" | "down";
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   timerHandler: any;
-  running: Boolean;
+  running: boolean;
 
   constructor(option: Partial<TimerOption>) {
     this.name = option.name || "timer";
@@ -129,4 +130,4 @@ class useTimer {
   };
 }
 
-export default useTimer;
+export default Timer;

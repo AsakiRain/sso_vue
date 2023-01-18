@@ -1,8 +1,8 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 
-import Antd, { message } from "ant-design-vue";
-import 'ant-design-vue/dist/antd.css';
+import Antd from "ant-design-vue";
+import "ant-design-vue/dist/antd.css";
 import App from "@/App.vue";
 import router from "@/router";
 import i18n from "@/locale";

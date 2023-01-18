@@ -1,11 +1,9 @@
 <template>
-  <main class="main" :style="{width: $route.meta.expand ? '100%' : '1200px'}">
+  <main class="main" :style="{ width: $route.meta.expand ? '100%' : '1200px' }">
     <div class="content">
       <div class="content-title">主页</div>
     </div>
   </main>
 </template>
-<script lang="ts" setup>
-</script>
-<style lang="css" scoped>
-</style>
+<script lang="ts" setup></script>
+<style lang="css" scoped></style>

@@ -1,8 +1,8 @@
 import { apiGet, apiPost } from "@/api/index";
 import { MyRes } from "@/models";
 import type {
-  AccountForm,
   AccountReq,
+  AccountRes,
   EmailForm,
   EmailRes,
   SerialRes,
@@ -21,7 +21,8 @@ const checkExistence = (res: MyRes) => {
   }
 };
 
-const checkMisMatch = (res: MyRes) => {
+// eslint-disable-next-line
+const checkMisMatch = (res: MyRes<any>) => {
   if (res.code === 42210) {
     router.push(res.data.url);
     throw res;
@@ -29,7 +30,7 @@ const checkMisMatch = (res: MyRes) => {
 };
 
 const getSerial = async (): Promise<MyRes<SerialRes>> => {
-  const res = await apiGet("reg/flow/0");
+  const res = await apiGet<SerialRes>("reg/flow/0");
   if (res.code !== 20000) {
     message.error(res.message);
     return Promise.reject(res.message);
@@ -38,7 +39,7 @@ const getSerial = async (): Promise<MyRes<SerialRes>> => {
 };
 
 const postTosForm = async (tosForm: TosForm): Promise<MyRes<TosRes>> => {
-  const res = await apiPost("reg/flow/1", tosForm);
+  const res = await apiPost<TosRes>("reg/flow/1", tosForm);
   if (res.code !== 20000) {
     message.error(res.message);
     checkExistence(res);
@@ -51,7 +52,7 @@ const postTosForm = async (tosForm: TosForm): Promise<MyRes<TosRes>> => {
 const postEmailForm = async (
   emailForm: EmailForm
 ): Promise<MyRes<EmailRes>> => {
-  const res = await apiPost("reg/flow/2", emailForm);
+  const res = await apiPost<EmailRes>("reg/flow/2", emailForm);
   if (res.code !== 20000) {
     message.error(res.message);
     checkExistence(res);
@@ -63,8 +64,8 @@ const postEmailForm = async (
 
 const postAccountForm = async (
   accountReq: AccountReq
-): Promise<MyRes<EmailRes>> => {
-  const res = await apiPost("reg/flow/3", accountReq);
+): Promise<MyRes<AccountRes>> => {
+  const res = await apiPost<AccountRes>("reg/flow/3", accountReq);
   if (res.code !== 20000) {
     message.error(res.message);
     checkExistence(res);

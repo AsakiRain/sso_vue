@@ -1,14 +1,14 @@
 export interface UserState {
-  uid?: number,
-  username?: string,
-  nickname?: string,
-  role?: string,
-  email?: string,
-  phone?: string,
-  avatar?: string,
-  created_at?: string,
-  updated_at?: string,
-  deleted_at?: string,
+  uid?: number;
+  username?: string;
+  nickname?: string;
+  role?: string;
+  email?: string;
+  phone?: string;
+  avatar?: string;
+  created_at?: string;
+  updated_at?: string;
+  deleted_at?: string;
 }
 
 export interface LoginForm {

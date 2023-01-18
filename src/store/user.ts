@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { LoginForm, LoginRes, UserState } from "@/models/user";
+import { LoginForm, UserState } from "@/models/user";
 import user from "@/api/user";
 import { message } from "ant-design-vue";
 const useUserStore = defineStore({
@@ -42,7 +42,7 @@ const useUserStore = defineStore({
       this.resetInfo();
       localStorage.removeItem("token");
     },
-    async info(){
+    async info() {
       try {
         const res = await user.info();
         this.setInfo(res.data);
@@ -50,7 +50,7 @@ const useUserStore = defineStore({
       } catch (error) {
         return false;
       }
-    }
+    },
   },
 });
 

@@ -122,6 +122,7 @@ const handleStartReg = async () => {
         router.push("/reg/flow/1");
       },
     });
+    // eslint-disable-next-line
   } catch (err: any) {
     message.error(err.message);
   }
@@ -138,6 +139,11 @@ const handleRestartReg = async () => {
   localStorage.removeItem("reg_serial");
   localStorage.removeItem("reg_step");
   location.reload();
+};
+</script>
+<script>
+export default {
+  name: "RegIndex",
 };
 </script>
 <style lang="css">

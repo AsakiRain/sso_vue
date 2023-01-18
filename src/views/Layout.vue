@@ -72,11 +72,10 @@
 
 <script lang="ts" setup>
 import { UserOutlined, TranslationOutlined } from "@ant-design/icons-vue";
-import { onMounted, reactive } from "vue";
+import { onMounted } from "vue";
 import useUserStore from "@/store/user";
 import { useRouter } from "vue-router";
 import { message } from "ant-design-vue";
-import { useI18n } from "vue-i18n";
 import useDark from "@/utils/useDark";
 import useLocale from "@/utils/useLocale";
 
@@ -84,7 +83,6 @@ const userStore = useUserStore();
 const router = useRouter();
 const { changeLocale } = useLocale();
 const { toggleDark } = useDark();
-const { t } = useI18n();
 
 onMounted(async () => {
   await userStore.info();
@@ -96,7 +94,11 @@ const handleLogout = async () => {
   await router.push("/login");
 };
 </script>
-
+<script>
+export default {
+  name: "MainLayout",
+};
+</script>
 <style lang="css">
 #header {
   position: fixed;

@@ -63,7 +63,7 @@ import { TosForm } from "@/models/reg";
 import useToggle from "@/utils/useToggle";
 import { FileTextOutlined } from "@ant-design/icons-vue";
 import { message } from "ant-design-vue";
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
 import reg from "@/api/reg";
 const router = useRouter();
@@ -88,6 +88,7 @@ const handleStepTos = async (tosForm: TosForm) => {
     const res = await reg.postTosForm(tosForm);
     localStorage.reg_step = 1;
     router.push(res.data.url);
+    // eslint-disable-next-line
   } catch (err: any) {
     console.log(err.message);
   } finally {
@@ -109,7 +110,7 @@ const data = [
 </script>
 
 <style scoped>
-#tos-form{
+#tos-form {
   flex-grow: 0;
 }
 </style>

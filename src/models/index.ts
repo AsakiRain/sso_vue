@@ -1,4 +1,4 @@
-export interface MyRes<T = any> {
+export interface MyRes<T = unknown> {
   code: number;
   message: string;
   data: T;

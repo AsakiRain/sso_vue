@@ -1,6 +1,6 @@
 import { ref } from "vue";
 
-const useToggle = (initVal: boolean = false) => {
+const useToggle = (initVal = false) => {
   const val = ref(initVal);
   const toggle = () => {
     val.value = !val.value;
