@@ -14,50 +14,24 @@
         :label-col="{ span: 5 }"
         :wrapper-col="{ span: 19 }"
         :model="accountForm"
+        :rules="rules"
         @finish="handleStepAcount"
       >
-        <a-form-item
-          name="username"
-          label="用户名"
-          :rules="[
-            {
-              required: true,
-              message: '请输入用户名',
-            },
-          ]"
-        >
+        <a-form-item name="username" label="用户名">
           <a-input v-model:value="accountForm.username" autocomplete="username">
             <template #prefix>
               <UserOutlined />
             </template>
           </a-input>
         </a-form-item>
-        <a-form-item
-          name="nickname"
-          label="昵称"
-          :rules="[
-            {
-              required: true,
-              message: '请输入昵称',
-            },
-          ]"
-        >
+        <a-form-item name="nickname" label="昵称">
           <a-input v-model:value="accountForm.nickname" autocomplete="nickname">
             <template #prefix>
               <TeamOutlined />
             </template>
           </a-input>
         </a-form-item>
-        <a-form-item
-          name="password"
-          label="密码"
-          :rules="[
-            {
-              required: true,
-              message: '请输入密码',
-            },
-          ]"
-        >
+        <a-form-item name="password" label="密码">
           <a-input-password
             v-model:value="accountForm.password"
             autocomplete="new-password"
@@ -67,16 +41,7 @@
             </template>
           </a-input-password>
         </a-form-item>
-        <a-form-item
-          name="password_confirm"
-          label="确认密码"
-          :rules="[
-            {
-              required: true,
-              message: '请再次输入密码',
-            },
-          ]"
-        >
+        <a-form-item name="password_confirm" label="确认密码">
           <a-input-password
             v-model:value="accountForm.password_confirm"
             autocomplete="one-time-code"
@@ -113,6 +78,7 @@ import {
   LockOutlined,
   ReloadOutlined,
 } from "@ant-design/icons-vue";
+import { Rule } from "ant-design-vue/es/form/interface";
 
 const router = useRouter();
 const { val: isLoading, set: setLoading } = useToggle(false);
@@ -149,6 +115,54 @@ const handleStepAcount = async (emailForm: EmailForm) => {
   } finally {
     setLoading(false);
   }
+};
+
+const rules: Record<string, Rule[]> = {
+  username: [
+    {
+      required: true,
+      message: "请输入用户名",
+    },
+    {
+      pattern: /^[a-zA-Z0-9_]{3,20}$/,
+      message: "用户名必须为3-20位大小写字母或数字",
+    },
+  ],
+  nickname: [
+    {
+      required: true,
+      message: "请输入昵称",
+    },
+    {
+      pattern: /^.{1,20}$/,
+      message: "昵称必须为1-20位字符"
+    }
+  ],
+  password: [
+    {
+      required: true,
+      message: "请输入密码",
+    },
+    {
+      pattern: /^[\x21-\x7e]{8,36}$/,
+      message: "密码必须为8-36位可见ASCII字符",
+    },
+  ],
+  password_confirm: [
+    {
+      required: true,
+      message: "请再次输入密码",
+    },
+    {
+      validator: (rule, value, callback) => {
+        if (accountForm.password !== accountForm.password_confirm) {
+          callback("两次密码输入不一致");
+        } else {
+          callback();
+        }
+      },
+    },
+  ],
 };
 </script>
 
