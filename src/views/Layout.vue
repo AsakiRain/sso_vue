@@ -1,15 +1,15 @@
 <template>
   <header
-    class="fixed top-0 left-0 right-0 z-2 flex justify-center bg-white dark:(bg-gray-900)"
+    class="fixed top-0 left-0 right-0 z-2 flex justify-center bg-light dark:(bg-dark)"
   >
     <div
-      class="mx-6 h-16 flex items-center gap-x-4 text-black dark:(text-light-400)"
+      class="mx-6 h-16 flex items-center gap-x-4 text-title dark:(text-dark-title)"
       :style="{ width: $route.meta.expand ? '100%' : '1200px' }"
     >
       <div class="text-xl font-bold cursor-pointer">{{ $t("site.title") }}</div>
       <div class="no-underline flex-grow flex text-base"></div>
       <div class="flex gap-x-2">
-        <a-button shape="round" @click="toggleDark()">
+        <a-button shape="round" @click="handleToggleDark()">
           <template #icon>
             <icon-moon-fill v-if="isDark" />
             <icon-sun-fill v-else />
@@ -36,7 +36,9 @@
       <div class="flex text-base items-center">
         <a-avatar image-url="/img/avatar/default.png"></a-avatar>
         <a-dropdown>
-          <div class="px-2 rain-link rain-btn-link">
+          <div
+            class="px-2 rain-link rain-btn-link text-title dark:(text-dark-title)"
+          >
             {{ userStore.nickname }}
           </div>
           <template #content>
@@ -61,7 +63,9 @@
     <Menu />
     <router-view></router-view>
   </main>
-  <footer class="text-center text-gray-600 text-sm">AsakiRain | 2022</footer>
+  <footer class="text-center text-base text-dark-subtext dark:(text-subtext)">
+    AsakiRain | 2022
+  </footer>
 </template>
 
 <script lang="ts" setup>
@@ -95,46 +99,27 @@ const handleLogout = async () => {
   Message.info("已经退出登录");
   await router.push("/login");
 };
+
+const handleToggleDark = () => {
+  if (!isDark.value) {
+    document.body.setAttribute("arco-theme", "dark");
+  } else {
+    document.body.removeAttribute("arco-theme");
+  }
+  toggleDark();
+};
+
+onMounted(() => {
+  if (isDark.value) document.body.setAttribute("arco-theme", "dark");
+});
 </script>
 <style lang="css">
 .content {
-  @apply flex-grow bg-white rounded-lg flex flex-col items-center;
+  @apply flex-grow rounded-lg flex flex-col items-center bg-light dark:(bg-dark);
 }
 
 .content-title {
   @apply self-stretch font-bold text-base text-center p-4 border-b
-    border-b-solid border-b-gray-300;
-}
-
-@media (max-width: 1200px) {
-  #header-content {
-    width: 100vw;
-  }
-
-  .main {
-    width: 100% !important;
-  }
-
-  .content {
-    margin: 0;
-    border-radius: 0;
-    border-top: 1px solid var(--border-color);
-  }
-
-  #footer {
-    border-top: 1px solid var(--border-color);
-    background-color: var(--backgroud-color);
-  }
-
-  .content-title {
-    display: none;
-  }
-
-  #route-title {
-    display: inline;
-    font-weight: bold;
-    font-size: 16px;
-    text-align: center;
-  }
+    border-b-solid border-b-light text-title dark:(border-b-dark text-dark-title);
 }
 </style>

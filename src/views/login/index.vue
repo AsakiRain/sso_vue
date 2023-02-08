@@ -4,12 +4,17 @@
       <div id="logo-wrapper">
         <a-avatar :size="100" image-url="/img/logo.jpg"></a-avatar>
       </div>
-      <div id="text-wrapper" class="text-white font-sans">
+      <div
+        id="text-wrapper"
+        class="font-sans text-white dark:(text-dark-title)"
+      >
         <div class="text-5xl font-bold">Friendship org</div>
         <div class="text-2xl">统一身份认证平台</div>
       </div>
     </div>
-    <a-tabs class="absolute right-40 bg-white shadow-2xl w-85 top-1/4">
+    <a-tabs
+      class="absolute right-40 shadow-2xl w-85 top-1/4 bg-light dark:(bg-dark)"
+    >
       <a-tab-pane key="1" title="账号登录" class="panel-item">
         <a-form :model="loginForm" auto-label-width @submit="handleLogin">
           <a-form-item
@@ -107,7 +112,6 @@ const handleLogin = async ({
   values: Record<string, any>;
   errors: Record<string, ValidatedError> | undefined;
 }) => {
-  console.log(values, errors);
   if (errors) return;
   setLoading(true);
   if (await userStore.login(values as LoginForm)) {
