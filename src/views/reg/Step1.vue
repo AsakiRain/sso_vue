@@ -39,7 +39,7 @@
             我已阅读并同意以上条款
           </a-checkbox>
         </a-form-item>
-        <a-form-item field="serial" hide-label class="hidden">
+        <a-form-item field="serial" label="serial" hide-label class="hidden">
           <a-input v-model="tosForm.serial" />
         </a-form-item>
         <a-button

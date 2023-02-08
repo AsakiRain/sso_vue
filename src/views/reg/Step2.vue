@@ -49,7 +49,7 @@
             </a-button>
           </div>
         </a-form-item>
-        <a-form-item field="serial" hide-label class="hidden">
+        <a-form-item field="serial" label="serial" hide-label class="hidden">
           <a-input v-model="emailForm.serial" />
         </a-form-item>
         <div class="flex-padder"></div>

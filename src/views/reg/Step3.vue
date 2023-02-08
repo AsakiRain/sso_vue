@@ -10,49 +10,57 @@
       </div>
       <a-form
         class="step-form"
-        id="account-form"
-        :label-col="{ span: 5 }"
-        :wrapper-col="{ span: 19 }"
         :model="accountForm"
         :rules="rules"
-        @finish="handleStepAcount"
+        auto-label-width
+        @submit-success="handleStepAcount"
       >
-        <a-form-item name="username" label="用户名">
-          <a-input v-model:value="accountForm.username" autocomplete="username">
+        <a-form-item field="username" label="用户名" hide-label>
+          <a-input
+            v-model="accountForm.username"
+            autocomplete="username"
+            placeholder="用户名"
+          >
             <template #prefix>
-              <UserOutlined />
+              <icon-user />
             </template>
           </a-input>
         </a-form-item>
-        <a-form-item name="nickname" label="昵称">
-          <a-input v-model:value="accountForm.nickname" autocomplete="nickname">
+        <a-form-item field="nickname" label="昵称" hide-label>
+          <a-input
+            v-model="accountForm.nickname"
+            autocomplete="nickname"
+            placeholder="昵称"
+          >
             <template #prefix>
-              <TeamOutlined />
+              <icon-at />
             </template>
           </a-input>
         </a-form-item>
-        <a-form-item name="password" label="密码">
+        <a-form-item field="password" label="密码" hide-label>
           <a-input-password
-            v-model:value="accountForm.password"
+            v-model="accountForm.password"
             autocomplete="new-password"
+            placeholder="密码"
           >
             <template #prefix>
-              <LockOutlined />
+              <icon-lock />
             </template>
           </a-input-password>
         </a-form-item>
-        <a-form-item name="password_confirm" label="确认密码">
+        <a-form-item field="password_confirm" label="确认密码" hide-label>
           <a-input-password
-            v-model:value="accountForm.password_confirm"
+            v-model="accountForm.password_confirm"
             autocomplete="one-time-code"
+            placeholder="确认密码"
           >
             <template #prefix>
-              <ReloadOutlined />
+              <icon-refresh />
             </template>
           </a-input-password>
         </a-form-item>
-        <a-form-item hidden name="serial">
-          <a-input v-model:value="accountForm.serial" />
+        <a-form-item field="serial" label="serial" hide-label class="hidden">
+          <a-input v-model="accountForm.serial" />
         </a-form-item>
         <div class="flex-padder"></div>
         <a-form-item>
@@ -68,24 +76,23 @@
 <script lang="ts" setup>
 import { AccountForm } from "@/models/reg";
 import useSwitch from "@/utils/useSwitch";
-import { message } from "ant-design-vue";
+import { FieldRule, Message } from "@arco-design/web-vue";
 import { onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
 import reg from "@/api/reg";
 import {
-  UserOutlined,
-  TeamOutlined,
-  LockOutlined,
-  ReloadOutlined,
-} from "@ant-design/icons-vue";
-import { Rule } from "ant-design-vue/es/form/interface";
+  IconUser,
+  IconAt,
+  IconLock,
+  IconRefresh,
+} from "@arco-design/web-vue/es/icon";
 
 const router = useRouter();
 const { val: isLoading, set: setLoading } = useSwitch(false);
 
 onMounted(() => {
   if (!localStorage.reg_serial) {
-    message.info("没有记录的流水号，需要从头开始注册");
+    Message.info("没有记录的流水号，需要从头开始注册");
     router.push("/reg");
   }
 });
@@ -98,14 +105,14 @@ const accountForm = reactive<AccountForm>({
   serial: localStorage.reg_serial,
 });
 
-const handleStepAcount = async (accountForm: AccountForm) => {
+const handleStepAcount = async (values: Record<string, any>) => {
   setLoading(true);
   try {
     const res = await reg.postAccountForm({
-      username: accountForm.username,
-      nickname: accountForm.nickname,
-      password: accountForm.password,
-      serial: accountForm.serial,
+      username: values.username,
+      nickname: values.nickname,
+      password: values.password,
+      serial: values.serial,
     });
     localStorage.reg_step = 3;
     router.push(res.data.url);
@@ -117,14 +124,14 @@ const handleStepAcount = async (accountForm: AccountForm) => {
   }
 };
 
-const rules: Record<string, Rule[]> = {
+const rules: Record<string, FieldRule | FieldRule[]> = {
   username: [
     {
       required: true,
       message: "请输入用户名",
     },
     {
-      pattern: /^[a-zA-Z0-9_]{3,20}$/,
+      match: /^[a-zA-Z0-9_]{3,20}$/,
       message: "用户名必须为3-20位大小写字母或数字",
     },
   ],
@@ -134,7 +141,7 @@ const rules: Record<string, Rule[]> = {
       message: "请输入昵称",
     },
     {
-      pattern: /^.{1,20}$/,
+      match: /^.{1,20}$/,
       message: "昵称必须为1-20位字符",
     },
   ],
@@ -144,7 +151,7 @@ const rules: Record<string, Rule[]> = {
       message: "请输入密码",
     },
     {
-      pattern: /^[\x21-\x7e]{8,36}$/,
+      match: /^[\x21-\x7e]{8,36}$/,
       message: "密码必须为8-36位可见ASCII字符",
     },
   ],
@@ -155,12 +162,11 @@ const rules: Record<string, Rule[]> = {
     },
     {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      validator: (_rule, value, _callback) => {
+      validator: async (value, callback) => {
         if (accountForm.password !== value) {
-          return Promise.reject("两次密码输入不一致");
-        } else {
-          return Promise.resolve();
+          callback("两次密码输入不一致");
         }
+        return Promise.resolve();
       },
     },
   ],
