@@ -16,6 +16,8 @@ export default defineConfig({
         "dark-pop": "rgba(55, 55, 57, 1)",
         hover: "rgba(229, 231, 235, 1)",
         "dark-hover": "rgba(52, 52, 53, 1)",
+        code: "rgba(242, 243, 245, 1)",
+        "dark-code": "rgba(46, 46, 48, 1)",
       },
       textColor: {
         title: "rgba(30, 33, 41, 1)",
@@ -27,6 +29,8 @@ export default defineConfig({
         "dark-subtext": "rgba(255, 255, 255, 0.5)",
         "dark-disable": "rgba(255, 255, 255, 0.3)",
         link: "rgba(69, 84, 255, 1)",
+        code: "rgba(80, 89, 105, 1)",
+        "dark-code": "rgba(193, 193, 193, 1)",
       },
       borderColor: {
         light: "rgba(229, 230, 235, 1)",
