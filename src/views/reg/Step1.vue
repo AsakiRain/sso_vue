@@ -6,29 +6,28 @@
     </div>
     <div class="step-content">
       <div class="step-description">请阅读并同意以下的用户条款：</div>
-      <a-list item-layout="horizontal" :data-source="data">
-        <template #renderItem="{ item }">
-          <a-list-item>
-            <a-list-item-meta :description="item.description">
-              <template #title>
-                <a :href="item.link" target="_blank">{{ item.title }}</a>
-              </template>
-              <template #avatar>
-                <FileTextOutlined />
-              </template>
-            </a-list-item-meta>
-          </a-list-item>
-        </template>
+      <a-list>
+        <a-list-item v-for="item in data" :key="item.title">
+          <a-list-item-meta :description="item.description">
+            <template #title>
+              <a :href="item.link" target="_blank">{{ item.title }}</a>
+            </template>
+            <template #avatar>
+              <icon-file :size="24" />
+            </template>
+          </a-list-item-meta>
+        </a-list-item>
       </a-list>
       <div class="flex-padder"></div>
       <a-form
-        class="step-form"
+        class="flex-grow"
         id="tos-form"
         :model="tosForm"
-        @finish="handleStepTos"
+        @submit-success="handleStepTos"
       >
         <a-form-item
-          name="accept_tos"
+          field="accept_tos"
+          hide-label
           :rules="[
             {
               required: true,
@@ -36,23 +35,22 @@
             },
           ]"
         >
-          <a-checkbox v-model:checked="tosForm.accept_tos">
+          <a-checkbox v-model="tosForm.accept_tos">
             我已阅读并同意以上条款
           </a-checkbox>
         </a-form-item>
-        <a-form-item hidden name="serial">
-          <a-input v-model:value="tosForm.serial" />
+        <a-form-item field="serial" hide-label class="hidden">
+          <a-input v-model="tosForm.serial" />
         </a-form-item>
-        <a-form-item>
-          <a-button
-            type="primary"
-            html-type="submit"
-            :disabled="!tosForm.accept_tos"
-            :loading="isLoading"
-          >
-            下一步
-          </a-button>
-        </a-form-item>
+        <a-button
+          class="self-start"
+          type="primary"
+          html-type="submit"
+          :disabled="!tosForm.accept_tos"
+          :loading="isLoading"
+        >
+          下一步
+        </a-button>
       </a-form>
     </div>
   </section>
@@ -61,8 +59,8 @@
 <script lang="ts" setup>
 import { TosForm } from "@/models/reg";
 import useToggle from "@/utils/useToggle";
-import { FileTextOutlined } from "@ant-design/icons-vue";
-import { message } from "ant-design-vue";
+import { Message } from "@arco-design/web-vue";
+import { IconFile } from "@arco-design/web-vue/es/icon";
 import { onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
 import reg from "@/api/reg";
@@ -71,7 +69,7 @@ const { val: isLoading, set: setLoading } = useToggle(false);
 
 onMounted(() => {
   if (!localStorage.reg_serial) {
-    message.info("没有记录的流水号，从头开始注册");
+    Message.info("没有记录的流水号，从头开始注册");
     router.push("/reg");
   }
 });
@@ -81,11 +79,11 @@ const tosForm = reactive<TosForm>({
   serial: localStorage.reg_serial,
 });
 
-const handleStepTos = async (tosForm: TosForm) => {
+const handleStepTos = async (values: Record<string, any>) => {
   setLoading(true);
   console.log(tosForm);
   try {
-    const res = await reg.postTosForm(tosForm);
+    const res = await reg.postTosForm(values as TosForm);
     localStorage.reg_step = 1;
     router.push(res.data.url);
     // eslint-disable-next-line
@@ -109,8 +107,4 @@ const data = [
 ];
 </script>
 
-<style scoped>
-#tos-form {
-  flex-grow: 0;
-}
-</style>
+<style scoped></style>
