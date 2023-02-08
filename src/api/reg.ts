@@ -14,7 +14,7 @@ import type {
   TosRes,
 } from "@/models/reg";
 import router from "@/router";
-import { message } from "ant-design-vue";
+import { Message } from "@arco-design/web-vue";
 
 const checkExistence = (res: MyRes) => {
   if (res.code === 42208) {
@@ -36,7 +36,7 @@ const checkMisMatch = (res: MyRes<any>) => {
 const getSerial = async (): Promise<MyRes<SerialRes>> => {
   const res = await apiGet<SerialRes>("reg/flow/0");
   if (res.code !== 20000) {
-    message.error(res.message);
+    Message.error(res.message);
     return Promise.reject(res.message);
   }
   return res;
@@ -45,7 +45,7 @@ const getSerial = async (): Promise<MyRes<SerialRes>> => {
 const postTosForm = async (tosForm: TosForm): Promise<MyRes<TosRes>> => {
   const res = await apiPost<TosRes>("reg/flow/1", tosForm);
   if (res.code !== 20000) {
-    message.error(res.message);
+    Message.error(res.message);
     checkExistence(res);
     checkMisMatch(res);
     return Promise.reject(res);
@@ -58,7 +58,7 @@ const postEmailForm = async (
 ): Promise<MyRes<EmailRes>> => {
   const res = await apiPost<EmailRes>("reg/flow/2", emailForm);
   if (res.code !== 20000) {
-    message.error(res.message);
+    Message.error(res.message);
     checkExistence(res);
     checkMisMatch(res);
     return Promise.reject(res);
@@ -71,7 +71,7 @@ const postAccountForm = async (
 ): Promise<MyRes<AccountRes>> => {
   const res = await apiPost<AccountRes>("reg/flow/3", accountReq);
   if (res.code !== 20000) {
-    message.error(res.message);
+    Message.error(res.message);
     checkExistence(res);
     checkMisMatch(res);
     return Promise.reject(res);
@@ -82,7 +82,7 @@ const postAccountForm = async (
 const getMsLink = async (serialForm: SerialForm): Promise<MyRes<MsLinkRes>> => {
   const res = await apiPost<MsLinkRes>("reg/flow/4", serialForm);
   if (res.code !== 20000) {
-    message.error(res.message);
+    Message.error(res.message);
     checkExistence(res);
     checkMisMatch(res);
     return Promise.reject(res);
@@ -95,7 +95,7 @@ const getMsQuery = async (
 ): Promise<MyRes<MsQueryRes>> => {
   const res = await apiPost<MsQueryRes>("reg/flow/4/query", serialForm);
   if (res.code !== 20000) {
-    message.error(res.message);
+    Message.error(res.message);
     checkExistence(res);
     checkMisMatch(res);
     return Promise.reject(res);
@@ -108,7 +108,7 @@ const postMsForm = async (
 ): Promise<MyRes<AccountRes>> => {
   const res = await apiPost<AccountRes>("reg/flow/4", msOauthForm);
   if (res.code !== 20000) {
-    message.error(res.message);
+    Message.error(res.message);
     checkExistence(res);
     checkMisMatch(res);
     return Promise.reject(res);

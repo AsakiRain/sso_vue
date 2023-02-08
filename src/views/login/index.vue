@@ -13,21 +13,16 @@
       </div>
     </div>
     <a-tabs
-      class="absolute right-40 shadow-2xl w-85 top-1/4 bg-light dark:(bg-dark)"
+      class="absolute right-40 shadow-2xl w-80 top-1/4 bg-light dark:(bg-dark)"
     >
       <a-tab-pane key="1" title="账号登录" class="panel-item">
-        <a-form :model="loginForm" auto-label-width @submit="handleLogin">
-          <a-form-item
-            label="用户名"
-            name="username"
-            validate-trigger="blur"
-            :rules="[
-              {
-                required: true,
-                message: '请输入用户名',
-              },
-            ]"
-          >
+        <a-form
+          :model="loginForm"
+          auto-label-width
+          @submit-success="handeLogin"
+          :rules="rules"
+        >
+          <a-form-item label="用户名" field="username" hide-label>
             <a-input
               v-model="loginForm.username"
               placeholder="用户名"
@@ -39,17 +34,7 @@
               </template>
             </a-input>
           </a-form-item>
-          <a-form-item
-            label="密码"
-            name="password"
-            validate-trigger="blur"
-            :rules="[
-              {
-                required: true,
-                message: '请输入密码',
-              },
-            ]"
-          >
+          <a-form-item label="密码" field="password" hide-label>
             <a-input-password
               v-model="loginForm.password"
               placeholder="密码"
@@ -94,7 +79,7 @@ import { IconUser, IconLock } from "@arco-design/web-vue/es/icon";
 import useToggle from "@/utils/useToggle";
 import useUserStore from "@/store/user";
 import { useRouter } from "vue-router";
-import { ValidatedError } from "@arco-design/web-vue";
+import { FieldRule, ValidatedError } from "@arco-design/web-vue";
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -105,19 +90,27 @@ const loginForm = reactive<LoginForm>({
   password: "",
 });
 
-const handleLogin = async ({
-  values,
-  errors,
-}: {
-  values: Record<string, any>;
-  errors: Record<string, ValidatedError> | undefined;
-}) => {
-  if (errors) return;
+const handeLogin = async (values: Record<string, any>) => {
   setLoading(true);
   if (await userStore.login(values as LoginForm)) {
     router.push("/");
   }
   setLoading(false);
+};
+
+const rules: Record<string, FieldRule | FieldRule[]> = {
+  username: [
+    {
+      required: true,
+      message: "请输入用户名",
+    },
+  ],
+  password: [
+    {
+      required: true,
+      message: "请输入密码",
+    },
+  ],
 };
 </script>
 <style lang="css" scoped>

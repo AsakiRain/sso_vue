@@ -1,17 +1,17 @@
 <template>
   <div id="reg-page">
     <div class="reg-content" v-if="$router.currentRoute.value.meta.step == 0">
-      <div class="wizard-wrapper">
-        <a-empty :image="Empty.PRESENTED_IMAGE_SIMPLE" />
+      <div class="wizard-wrapper border-l border-l-solid border-l-light">
+        <a-empty />
       </div>
       <div class="reg-wizard">
-        <div class="wizard-title">
-          <div class="wizard-main-title">朋友船统一身份认证平台</div>
-          <div class="wizard-sub-title">注册向导</div>
+        <div class="mb-3">
+          <div class="text-2xl font-bold">朋友船统一身份认证平台</div>
+          <div class="text-xl italic text-subtext">注册向导</div>
         </div>
-        <div class="wizard-content">
+        <div class="flex-grow text-base flex flex-col">
           <template v-if="resume">
-            <div class="wizard-text">
+            <div class="flex-grow">
               <p>你已经有一个流水号了：</p>
               <p>
                 <code>{{ reg_serial }}</code>
@@ -40,7 +40,7 @@
             </div>
           </template>
           <template v-else>
-            <div class="wizard-text">
+            <div class="flex-grow">
               <p>欢迎注册<code>朋友船统一身份认证平台</code>账号</p>
               <p>
                 为了基于<code>QQ号</code>和<code>Minecraft账号</code>实现功能，需要在注册阶段就<code>完成认证</code>，因此整个注册流程会比较长
@@ -58,7 +58,7 @@
                 点击<code>开始注册</code>，将会生成一个<code>流水号</code>，并凭流水号完成整个注册流程
               </p>
             </div>
-            <div class="wizard-btn">
+            <div class="flex gap-x-3">
               <a-button type="primary" @click="handleStartReg">
                 开始注册
               </a-button>
@@ -69,7 +69,11 @@
     </div>
     <div class="reg-content" v-else>
       <div class="step-wrapper">
-        <a-steps v-model:current="current" direction="vertical">
+        <a-steps
+          v-model:current="current"
+          direction="vertical"
+          class="children:(!min-h-16)"
+        >
           <a-step title="Step 1" description="用户条款" />
           <a-step title="Step 2" description="验证邮箱" />
           <a-step title="Step 3" description="创建账号" />
@@ -86,7 +90,7 @@
 <script lang="ts" setup>
 import router from "@/router";
 import { computed, h } from "vue";
-import { Empty, message, Modal } from "ant-design-vue";
+import { Modal, Message } from "@arco-design/web-vue";
 import reg from "@/api/reg";
 import { findStepName } from "@/utils/useRegStep";
 
@@ -112,11 +116,9 @@ const handleStartReg = async () => {
     const res = await reg.getSerial();
     Modal.success({
       title: res.message,
-      content: h("div", [
-        h("p", "将使用以下流水号："),
-        h("p", res.data.serial),
-      ]),
-      afterClose: () => {
+      content: () =>
+        h("div", [h("p", "将使用以下流水号："), h("p", res.data.serial)]),
+      onClose: () => {
         localStorage.reg_serial = res.data.serial;
         localStorage.reg_step = 0;
         router.push("/reg/flow/1");
@@ -124,12 +126,12 @@ const handleStartReg = async () => {
     });
     // eslint-disable-next-line
   } catch (err: any) {
-    message.error(err.message);
+    Message.error(err.message);
   }
 };
 
 const handleResumeReg = async () => {
-  message.info(
+  Message.info(
     `前往第${reg_step_to.value}步：${findStepName(reg_step_to.value)}`
   );
   router.push(`/reg/flow/${reg_step_to.value}`);
@@ -143,110 +145,57 @@ const handleRestartReg = async () => {
 </script>
 <style lang="css">
 code {
-  margin: 0 1px;
-  padding: 3px 6px;
-  font-size: 15px;
-  background: #f2f4f5;
-  border: 1px solid #f0f0f0;
-  border-radius: 3px;
+  @apply mx-[1px] py-[3px] px-[6px] text-baseborder border-solod border-[#f0f0f0] bg-[#f2f4f5] text-passage rounded;
 }
+
 #reg-page {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @apply h-screen flex justify-center items-center;
 }
+
 .reg-content {
-  background-color: var(--backgroud-color);
+  @apply w-[800px] h-[558px] p-12 flex bg-light;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
-  width: 800px;
-  height: 558px;
-  padding: 48px;
-  display: flex;
 }
-.wizard-btn {
-  display: flex;
-  column-gap: 12px;
-}
+
 .step-wrapper,
 .wizard-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 150px;
-  border-right: 1px solid var(--border-color);
-  flex-shrink: 0;
+  @apply flex-shrink-0 flex flex-col justify-center w-[150px] border-r border-r-solid border-r-light;
 }
-.wizard-wrapper {
-  border-left: 1px solid var(--border-color);
-}
+
 .step-empty {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-left: 1px solid var(--border-color);
+  @apply flex flex-col justify-center border-l border-l-solid border-l-light;
 }
 
 .reg-step,
 .reg-wizard {
-  flex-grow: 1;
-  padding: 0 48px;
-  display: flex;
-  flex-direction: column;
+  @apply flex-grow px-12 flex flex-col;
 }
 
-.wizard-main-title {
-  font-size: 24px;
-  font-weight: bold;
-}
-.wizard-sub-title {
-  font-size: 20px;
-  line-height: 20px;
-  font-style: italic;
-  color: var(--sub-text-color);
-}
-.wizard-content {
-  flex-grow: 1;
-  font-size: 16px;
-  display: flex;
-  flex-direction: column;
-}
-.wizard-text {
-  flex-grow: 1;
-}
 .step-main-title {
-  font-size: 24px;
-  line-height: 24px;
-  font-weight: bold;
+  @apply text-2xl leading-6 font-bold;
 }
 
 .step-sub-title {
-  font-size: 20px;
-  line-height: 24px;
-  color: var(--sub-text-color);
+  @apply text-xl leading-6 text-subtext;
 }
-.wizard-title {
-  margin-bottom: 12px;
-}
+
 .step-title {
-  margin-bottom: 32px;
+  @apply mb-8;
 }
+
 .step-content {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  row-gap: 24px;
+  @apply flex-grow flex flex-col gap-y-6;
 }
+
 .step-description {
-  font-size: 18px;
+  @apply text-lg;
 }
+
 .flex-padder {
-  flex-grow: 1;
+  @apply flex-grow;
 }
+
 .step-form {
-  flex-grow: 1;
-  width: 350px;
-  display: flex;
-  flex-direction: column;
+  @apply flex-grow w-[350px] flex flex-col;
 }
 </style>
