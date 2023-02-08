@@ -1,172 +1,126 @@
 <template>
-  <div id="login-page">
-    <div id="brand-wrapper">
+  <div class="flex justify-center items-center h-screen">
+    <div class="flex gap-x-2 items-center absolute top-9 left-12">
       <div id="logo-wrapper">
-        <a-avatar :size="100" src="/img/logo.jpg"></a-avatar>
+        <a-avatar :size="100" image-url="/img/logo.jpg"></a-avatar>
       </div>
-      <div id="text-wrapper">
-        <div id="main-title">Friendship org</div>
-        <div id="sub-title">统一身份认证平台</div>
+      <div id="text-wrapper" class="text-white font-sans">
+        <div class="text-5xl font-bold">Friendship org</div>
+        <div class="text-2xl">统一身份认证平台</div>
       </div>
     </div>
-    <div id="panel-wrapper">
-      <a-tabs type="card" id="login-panel">
-        <a-tab-pane key="1" tab="账号登录" class="panel-item">
-          <a-form
-            id="login-form"
-            :form="loginForm"
-            :model="loginForm"
-            :label-col="{ span: 6 }"
-            :wrapper-col="{ span: 18 }"
-            @finish="handleLogin"
+    <a-tabs class="absolute right-40 bg-white shadow-2xl w-85 top-1/4">
+      <a-tab-pane key="1" title="账号登录" class="panel-item">
+        <a-form :model="loginForm" auto-label-width @submit="handleLogin">
+          <a-form-item
+            label="用户名"
+            name="username"
+            validate-trigger="blur"
+            :rules="[
+              {
+                required: true,
+                message: '请输入用户名',
+              },
+            ]"
           >
-            <a-form-item
-              label="用户名"
-              name="username"
-              :rules="[
-                {
-                  required: true,
-                  message: '请输入用户名',
-                },
-              ]"
+            <a-input
+              v-model="loginForm.username"
+              placeholder="用户名"
+              autocomplete="username"
+              allow-clear
             >
-              <a-input
-                autocomplete="username"
-                v-model:value="loginForm.username"
-              >
-                <template #prefix>
-                  <UserOutlined />
-                </template>
-              </a-input>
-            </a-form-item>
-            <a-form-item
-              label="密码"
-              name="password"
-              :rules="[
-                {
-                  required: true,
-                  message: '请输入密码',
-                },
-              ]"
+              <template #prefix>
+                <icon-user />
+              </template>
+            </a-input>
+          </a-form-item>
+          <a-form-item
+            label="密码"
+            name="password"
+            validate-trigger="blur"
+            :rules="[
+              {
+                required: true,
+                message: '请输入密码',
+              },
+            ]"
+          >
+            <a-input-password
+              v-model="loginForm.password"
+              placeholder="密码"
+              autocomplete="current-password"
+              invisible-button
             >
-              <a-input-password
-                autocomplete="current-password"
-                v-model:value="loginForm.password"
-                @keyup.enter="handleLogin"
-              >
-                <template #prefix>
-                  <LockOutlined />
-                </template>
-              </a-input-password>
-            </a-form-item>
-            <div class="etc-wrapper">
-              <a-checkbox>记住我</a-checkbox>
-              <a @click="$router.push('/login')">忘记密码</a>
-            </div>
-            <div class="btn-wrapper">
-              <a-button
-                type="primary"
-                html-type="submit"
-                :loading="isLoading"
-                block
-              >
-                登录
-              </a-button>
-              <a-button block @click="$router.push('/reg')">注册</a-button>
-            </div>
-          </a-form>
-        </a-tab-pane>
-        <a-tab-pane key="2" tab="QQ登录" class="panel-item">
-          Content of Tab Pane 2
-        </a-tab-pane>
-        <a-tab-pane key="3" tab="WebAuthn登录" class="panel-item">
-          Content of Tab Pane 3
-        </a-tab-pane>
-      </a-tabs>
-    </div>
+              <template #prefix>
+                <icon-lock />
+              </template>
+            </a-input-password>
+          </a-form-item>
+          <div class="flex justify-between mb-3">
+            <a-checkbox>记住我</a-checkbox>
+            <a @click="$router.push('/login')">忘记密码</a>
+          </div>
+          <div class="flex flex-col gap-y-2">
+            <a-button
+              type="primary"
+              html-type="submit"
+              :loading="isLoading"
+              block
+            >
+              登录
+            </a-button>
+            <a-button block @click="$router.push('/reg')">注册</a-button>
+          </div>
+        </a-form>
+      </a-tab-pane>
+      <a-tab-pane key="2" title="QQ登录" class="panel-item">
+        Content of Tab Pane 2
+      </a-tab-pane>
+      <a-tab-pane key="3" title="WebAuthn登录" class="panel-item">
+        Content of Tab Pane 3
+      </a-tab-pane>
+    </a-tabs>
   </div>
 </template>
 <script lang="ts" setup>
 import { LoginForm } from "@/models/user";
 import { reactive } from "vue";
-import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
+import { IconUser, IconLock } from "@arco-design/web-vue/es/icon";
 import useToggle from "@/utils/useToggle";
 import useUserStore from "@/store/user";
 import { useRouter } from "vue-router";
+import { ValidatedError } from "@arco-design/web-vue";
 
 const userStore = useUserStore();
 const router = useRouter();
+
 const { val: isLoading, set: setLoading } = useToggle(false);
 const loginForm = reactive<LoginForm>({
   username: "",
   password: "",
 });
 
-const handleLogin = async (loginForm: LoginForm) => {
+const handleLogin = async ({
+  values,
+  errors,
+}: {
+  values: Record<string, any>;
+  errors: Record<string, ValidatedError> | undefined;
+}) => {
+  console.log(values, errors);
+  if (errors) return;
   setLoading(true);
-  if (await userStore.login(loginForm)) {
+  if (await userStore.login(values as LoginForm)) {
     router.push("/");
   }
   setLoading(false);
 };
 </script>
 <style lang="css" scoped>
-#brand-wrapper {
-  display: flex;
-  column-gap: 8px;
-  align-items: center;
-  position: absolute;
-  top: 36px;
-  left: 48px;
-}
 #text-wrapper {
-  color: #ffffff;
-  font-family: Roboto, sans-serif;
   text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.8);
 }
-#main-title {
-  font-size: 48px;
-  font-weight: bold;
-  line-height: 48px;
-}
-#sub-title {
-  font-size: 24px;
-  line-height: 24px;
-}
-
-#panel-wrapper {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  top: 25%;
-  right: 160px;
-}
-
-#login-panel {
-  background-color: var(--backgroud-color);
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.6);
-}
 .panel-item {
-  padding: 0 24px;
-  width: 320px;
-}
-
-#btn-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.etc-wrapper {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.btn-wrapper {
-  display: flex;
-  flex-direction: column;
-  row-gap: 8px;
-  margin-bottom: 16px;
+  @apply pb-4 px-6;
 }
 </style>
