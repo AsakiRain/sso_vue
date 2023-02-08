@@ -94,11 +94,6 @@ const handleLogout = async () => {
   await router.push("/login");
 };
 </script>
-<script>
-export default {
-  name: "MainLayout",
-};
-</script>
 <style lang="css">
 #header {
   position: fixed;

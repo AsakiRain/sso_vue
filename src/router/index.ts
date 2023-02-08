@@ -45,6 +45,15 @@ const routes: Array<RouteRecordRaw> = [
           step: 3,
         },
       },
+      {
+        path: "flow/4",
+        name: "RegStep3",
+        component: () => import("@/views/reg/Step4.vue"),
+        meta: {
+          title: "route.reg.step4",
+          step: 4,
+        },
+      },
     ],
   },
   {

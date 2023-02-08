@@ -38,17 +38,25 @@ export interface AccountReq {
 
 export interface AccountRes {
   url: string;
+}
+
+export interface MsLinkRes {
   link_start: string;
   link_remake: string;
 }
 
-export interface MsReq {
+export interface MsOauthForm {
+  serial: string;
+  ms_state: string;
+  ms_token: string;
+}
+export interface MsQueryRes {
   serial: string;
   ms_state: string;
   ms_token: string;
 }
 
-export interface MsQueryReq {
+export interface SerialForm {
   serial: string;
 }
 
@@ -104,24 +112,12 @@ export interface MsQueryRes {
   };
 }
 
-export interface QqReq {
-  serial: string;
-}
-
 export interface QqRes {
   url: string;
 }
 
-export interface OptionReq {
-  serial: string;
-}
-
 export interface OptionRes {
   url: string;
-}
-
-export interface FinishReq {
-  serial: string;
 }
 
 export interface FinishRes {

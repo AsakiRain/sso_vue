@@ -5,6 +5,10 @@ import type {
   AccountRes,
   EmailForm,
   EmailRes,
+  MsLinkRes,
+  MsOauthForm,
+  MsQueryRes,
+  SerialForm,
   SerialRes,
   TosForm,
   TosRes,
@@ -66,6 +70,43 @@ const postAccountForm = async (
   accountReq: AccountReq
 ): Promise<MyRes<AccountRes>> => {
   const res = await apiPost<AccountRes>("reg/flow/3", accountReq);
+  if (res.code !== 20000) {
+    message.error(res.message);
+    checkExistence(res);
+    checkMisMatch(res);
+    return Promise.reject(res);
+  }
+  return res;
+};
+
+const getMsLink = async (serialForm: SerialForm): Promise<MyRes<MsLinkRes>> => {
+  const res = await apiPost<MsLinkRes>("reg/flow/4", serialForm);
+  if (res.code !== 20000) {
+    message.error(res.message);
+    checkExistence(res);
+    checkMisMatch(res);
+    return Promise.reject(res);
+  }
+  return res;
+};
+
+const getMsQuery = async (
+  serialForm: SerialForm
+): Promise<MyRes<MsQueryRes>> => {
+  const res = await apiPost<MsQueryRes>("reg/flow/4/query", serialForm);
+  if (res.code !== 20000) {
+    message.error(res.message);
+    checkExistence(res);
+    checkMisMatch(res);
+    return Promise.reject(res);
+  }
+  return res;
+};
+
+const postMsForm = async (
+  msOauthForm: MsOauthForm
+): Promise<MyRes<AccountRes>> => {
+  const res = await apiPost<AccountRes>("reg/flow/4", msOauthForm);
   if (res.code !== 20000) {
     message.error(res.message);
     checkExistence(res);

@@ -141,11 +141,6 @@ const handleRestartReg = async () => {
   location.reload();
 };
 </script>
-<script>
-export default {
-  name: "RegIndex",
-};
-</script>
 <style lang="css">
 code {
   margin: 0 1px;
