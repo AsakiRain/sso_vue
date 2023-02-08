@@ -4,11 +4,12 @@
   </a-config-provider>
 </template>
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import zhCN from "@arco-design/web-vue/es/locale/lang/zh-cn";
 import enUS from "@arco-design/web-vue/es/locale/lang/en-us";
 
 import useLocale from "@/utils/useLocale";
+import { useDark } from "@vueuse/core";
 const { currentLocale } = useLocale();
 
 const locales: Record<string, any> = {
@@ -18,6 +19,12 @@ const locales: Record<string, any> = {
 
 const locale = computed(() => {
   return locales[currentLocale.value] || zhCN;
+});
+
+const isDark = useDark();
+
+onMounted(() => {
+  if (isDark.value) document.body.setAttribute("arco-theme", "dark");
 });
 </script>
 <style lang="css">

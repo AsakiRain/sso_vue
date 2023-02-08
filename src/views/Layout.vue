@@ -108,10 +108,6 @@ const handleToggleDark = () => {
   }
   toggleDark();
 };
-
-onMounted(() => {
-  if (isDark.value) document.body.setAttribute("arco-theme", "dark");
-});
 </script>
 <style lang="css">
 .content {
