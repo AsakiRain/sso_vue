@@ -10,7 +10,7 @@
       </div>
       <a-form
         class="step-form"
-        id="email-form"
+        ref="formRef"
         :model="emailForm"
         :rules="rules"
         @submit-success="handleStepEmail"
@@ -67,7 +67,7 @@
 import { EmailForm } from "@/models/reg";
 import useToggle from "@/utils/useToggle";
 import { FieldRule, Message } from "@arco-design/web-vue";
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import reg from "@/api/reg";
 import email from "@/api/email";
@@ -78,6 +78,7 @@ const router = useRouter();
 const { val: isLoading, set: setLoading } = useToggle(false);
 const { val: isGeting, set: setGeting } = useToggle(false);
 const { val: isCooling, set: setCooling } = useToggle(false);
+const formRef = ref();
 
 const timer = new Timer({
   name: "email_code",
@@ -111,8 +112,9 @@ const emailForm = reactive<EmailForm>({
 });
 
 const handleGetCode = async () => {
-  if (!emailForm.email) {
-    Message.info("请输入邮箱");
+  const errors = await formRef.value.validateField("email");
+  if (errors) {
+    Message.info("请输入正确的邮箱");
     return;
   }
   setGeting(true);
