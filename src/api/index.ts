@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { AxiosRequestConfig, AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
 import { message } from "ant-design-vue";
 import type { MyRes } from "@/models";
 import router from "@/router";
@@ -10,12 +10,15 @@ const api = axios.create({
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
-    Authorization: localStorage.getItem("token") || "",
   },
 });
 
 api.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  // eslint-disable-next-line
+  (config: any) => {
+    if (!config.headers) config.headers = {};
+    // 搞不懂这个类型喵
+    config.headers.Authorization = localStorage.getItem("token") || "";
     return config;
   },
   (error) => {
