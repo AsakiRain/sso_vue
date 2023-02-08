@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
 import { LoginForm, UserState } from "@/models/user";
 import user from "@/api/user";
-import { message } from "ant-design-vue";
+import { Message } from "@arco-design/web-vue";
+
 const useUserStore = defineStore({
   id: "user",
   state: (): UserState => ({
@@ -29,9 +30,10 @@ const useUserStore = defineStore({
       this.$reset();
     },
     async login(loginForm: LoginForm): Promise<boolean> {
+      console.log(loginForm);
       try {
         const res = await user.login(loginForm);
-        message.success(res.message);
+        Message.success(res.message);
         localStorage.token = res.data.token;
         return true;
       } catch (error) {

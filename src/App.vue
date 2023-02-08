@@ -5,73 +5,41 @@
 </template>
 <script setup lang="ts">
 import { computed } from "vue";
+import zhCN from "@arco-design/web-vue/es/locale/lang/zh-cn";
+import enUS from "@arco-design/web-vue/es/locale/lang/en-us";
+import { ArcoLang } from "@arco-design/web-vue/es/locale/interface";
+
 import useLocale from "@/utils/useLocale";
-import zhCN from "ant-design-vue/es/locale/zh_CN";
-import enUS from "ant-design-vue/es/locale/en_US";
 const { currentLocale } = useLocale();
 
+const locales: Record<string, ArcoLang> = {
+  "zh-CN": zhCN,
+  "en-US": enUS,
+};
+
 const locale = computed(() => {
-  switch (currentLocale.value) {
-    case "zh-CN":
-      return zhCN;
-    case "en-US":
-      return enUS;
-    default:
-      return zhCN;
-  }
+  return locales[currentLocale.value] || zhCN;
 });
 </script>
-<style>
-html {
-  --backgroud-color: #ffffff;
-  --text-color: #262626;
-  --sub-text-color: #ababab;
-  --a-text-color: #458bff;
-  --a-hover-color: #40a9ff;
-  --hover-backgroud-color: #eeeeee;
-  --border-color: #e0e0e0;
-  --backgroud-image: url("/img/back-light.png");
-  --footer-color: #bfbfbf;
-}
-
-html.dark {
-  --backgroud-color: #141414;
-  --text-color: #dcdcdc;
-  --sub-text-color: #ababab;
-  --a-text-color: #3c79dc;
-  --a-hover-color: #40a9ff;
-  --hover-backgroud-color: #424242;
-  --border-color: #404040;
-  --backgroud-image: url("/img/back-dark.png");
-  --footer-color: #5f5f5f;
-}
+<style lang="css">
 * {
-  box-sizing: border-box;
-  font-family: Roboto, sans-serif;
+  @apply box-border font-sans;
 }
-
 body {
-  height: 100vh;
+  @apply h-screen m-0;
 }
 
 #app {
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
-  min-height: 100vh;
+  @apply flex flex-col min-h-screen;
 }
 
 #app::before {
-  content: "";
-  position: fixed;
-  top: -10px;
-  left: -10px;
-  right: -10px;
-  bottom: -10px;
-  background-image: var(--backgroud-image);
-  background-size: cover;
-  background-repeat: no-repeat;
-  filter: blur(6px);
-  z-index: -1;
+  @apply content-DEFAULT fixed -inset-2.5 blur-6 -z-1;
+  background-image: url("/img/back-light.png");
+  @apply bg-cover bg-no-repeat;
+}
+
+html.dark #app::before {
+  background-image: url("/img/back-dark.png");
 }
 </style>

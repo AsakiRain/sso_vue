@@ -1,5 +1,5 @@
 import { useI18n } from "vue-i18n";
-import { message } from "ant-design-vue";
+import { Message } from "@arco-design/web-vue";
 import { computed } from "vue";
 
 const useLocale = () => {
@@ -13,7 +13,7 @@ const useLocale = () => {
     const { t } = i18n;
     i18n.locale.value = newLocale;
     localStorage.locale = newLocale;
-    message.success(t("setting.changeLocale"));
+    Message.success(t("setting.changeLocale"));
   };
 
   return { currentLocale, changeLocale };

@@ -1,12 +1,12 @@
 import { apiGet, apiPost } from "@/api/index";
 import { MyRes } from "@/models";
 import type { UserInfo, LoginForm, LoginRes } from "@/models/user";
-import { message } from "ant-design-vue";
+import { Message } from "@arco-design/web-vue";
 
 const login = async (loginForm: LoginForm): Promise<MyRes<LoginRes>> => {
   const res = await apiPost("/login", loginForm);
   if (res.code !== 20000) {
-    message.error(res.message);
+    Message.error(res.message);
     return Promise.reject(res.message);
   }
   return res;
@@ -15,7 +15,7 @@ const login = async (loginForm: LoginForm): Promise<MyRes<LoginRes>> => {
 const info = async (): Promise<MyRes<UserInfo>> => {
   const res = await apiGet("/user/info");
   if (res.code !== 20000) {
-    message.error(res.message);
+    Message.error(res.message);
     return Promise.reject(res.message);
   }
   return res;
