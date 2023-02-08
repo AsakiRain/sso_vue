@@ -1,6 +1,6 @@
 import { ref } from "vue";
 
-const useToggle = (initVal = false) => {
+const useSwitch = (initVal = false) => {
   const val = ref(initVal);
   const toggle = () => {
     val.value = !val.value;
@@ -11,4 +11,4 @@ const useToggle = (initVal = false) => {
   return { val, set, toggle };
 };
 
-export default useToggle;
+export default useSwitch;

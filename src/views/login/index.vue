@@ -76,7 +76,7 @@
 import { LoginForm } from "@/models/user";
 import { reactive } from "vue";
 import { IconUser, IconLock } from "@arco-design/web-vue/es/icon";
-import useToggle from "@/utils/useToggle";
+import useSwitch from "@/utils/useSwitch";
 import useUserStore from "@/store/user";
 import { useRouter } from "vue-router";
 import { FieldRule, ValidatedError } from "@arco-design/web-vue";
@@ -84,7 +84,7 @@ import { FieldRule, ValidatedError } from "@arco-design/web-vue";
 const userStore = useUserStore();
 const router = useRouter();
 
-const { val: isLoading, set: setLoading } = useToggle(false);
+const { val: isLoading, set: setLoading } = useSwitch(false);
 const loginForm = reactive<LoginForm>({
   username: "",
   password: "",

@@ -58,14 +58,14 @@
 
 <script lang="ts" setup>
 import { TosForm } from "@/models/reg";
-import useToggle from "@/utils/useToggle";
+import useSwitch from "@/utils/useSwitch";
 import { Message } from "@arco-design/web-vue";
 import { IconFile } from "@arco-design/web-vue/es/icon";
 import { onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
 import reg from "@/api/reg";
 const router = useRouter();
-const { val: isLoading, set: setLoading } = useToggle(false);
+const { val: isLoading, set: setLoading } = useSwitch(false);
 
 onMounted(() => {
   if (!localStorage.reg_serial) {

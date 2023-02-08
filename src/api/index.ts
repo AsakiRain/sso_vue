@@ -6,7 +6,7 @@ import router from "@/router";
 
 const api = axios.create({
   baseURL: "http://localhost:3000/",
-  timeout: 3000,
+  timeout: 30000,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -33,7 +33,6 @@ api.interceptors.response.use(
   },
   (error) => {
     if (!error.response) {
-      console.log(error);
       Message.error(error.message);
     } else {
       if (error.response.status.toString().startsWith(5)) {

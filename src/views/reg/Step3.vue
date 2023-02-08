@@ -67,7 +67,7 @@
 
 <script lang="ts" setup>
 import { AccountForm } from "@/models/reg";
-import useToggle from "@/utils/useToggle";
+import useSwitch from "@/utils/useSwitch";
 import { message } from "ant-design-vue";
 import { onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
@@ -81,7 +81,7 @@ import {
 import { Rule } from "ant-design-vue/es/form/interface";
 
 const router = useRouter();
-const { val: isLoading, set: setLoading } = useToggle(false);
+const { val: isLoading, set: setLoading } = useSwitch(false);
 
 onMounted(() => {
   if (!localStorage.reg_serial) {

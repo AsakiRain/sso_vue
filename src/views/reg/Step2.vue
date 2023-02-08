@@ -65,7 +65,7 @@
 
 <script lang="ts" setup>
 import { EmailForm } from "@/models/reg";
-import useToggle from "@/utils/useToggle";
+import useSwitch from "@/utils/useSwitch";
 import { FieldRule, Message } from "@arco-design/web-vue";
 import { onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
@@ -75,9 +75,9 @@ import Timer from "@/utils/useTimer";
 import { IconEmail, IconCode } from "@arco-design/web-vue/es/icon";
 
 const router = useRouter();
-const { val: isLoading, set: setLoading } = useToggle(false);
-const { val: isGeting, set: setGeting } = useToggle(false);
-const { val: isCooling, set: setCooling } = useToggle(false);
+const { val: isLoading, set: setLoading } = useSwitch(false);
+const { val: isGeting, set: setGeting } = useSwitch(false);
+const { val: isCooling, set: setCooling } = useSwitch(false);
 const formRef = ref();
 
 const timer = new Timer({
