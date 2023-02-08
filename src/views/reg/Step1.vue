@@ -81,7 +81,6 @@ const tosForm = reactive<TosForm>({
 
 const handleStepTos = async (values: Record<string, any>) => {
   setLoading(true);
-  console.log(tosForm);
   try {
     const res = await reg.postTosForm(values as TosForm);
     localStorage.reg_step = 1;

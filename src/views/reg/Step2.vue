@@ -11,32 +11,31 @@
       <a-form
         class="step-form"
         id="email-form"
-        :label-col="{ span: 5 }"
-        :wrapper-col="{ span: 19 }"
         :model="emailForm"
         :rules="rules"
-        @finish="handleStepEmail"
+        @submit-success="handleStepEmail"
       >
-        <a-form-item name="email" label="邮箱">
+        <a-form-item field="email" label="邮箱" hide-label>
           <a-input
-            v-model:value="emailForm.email"
+            v-model="emailForm.email"
             placeholder="请输入邮箱"
             autocomplete="email"
           >
             <template #prefix>
-              <MailOutlined />
+              <icon-email />
             </template>
           </a-input>
         </a-form-item>
-        <a-form-item name="code" label="验证码">
-          <div id="code-row">
+        <a-form-item field="code" label="验证码" hide-label>
+          <div class="flex gap-x-2 flex-grow">
             <a-input
-              v-model:value="emailForm.code"
+              v-model="emailForm.code"
               placeholder="请输入验证码"
               autocompete="one-time-code"
+              class="flex-grow"
             >
               <template #prefix>
-                <NumberOutlined />
+                <icon-code />
               </template>
             </a-input>
             <a-button
@@ -50,11 +49,11 @@
             </a-button>
           </div>
         </a-form-item>
-        <a-form-item hidden name="serial">
-          <a-input v-model:value="emailForm.serial" />
+        <a-form-item field="serial" hide-label class="hidden">
+          <a-input v-model="emailForm.serial" />
         </a-form-item>
         <div class="flex-padder"></div>
-        <a-form-item>
+        <a-form-item hide-label>
           <a-button type="primary" html-type="submit" :loading="isLoading">
             下一步
           </a-button>
@@ -67,14 +66,13 @@
 <script lang="ts" setup>
 import { EmailForm } from "@/models/reg";
 import useToggle from "@/utils/useToggle";
-import { message } from "ant-design-vue";
+import { FieldRule, Message } from "@arco-design/web-vue";
 import { onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
 import reg from "@/api/reg";
 import email from "@/api/email";
 import Timer from "@/utils/useTimer";
-import { MailOutlined, NumberOutlined } from "@ant-design/icons-vue";
-import { Rule } from "ant-design-vue/es/form/interface";
+import { IconEmail, IconCode } from "@arco-design/web-vue/es/icon";
 
 const router = useRouter();
 const { val: isLoading, set: setLoading } = useToggle(false);
@@ -101,7 +99,7 @@ const timer = new Timer({
 
 onMounted(() => {
   if (!localStorage.reg_serial) {
-    message.info("没有记录的流水号，需要从头开始注册");
+    Message.info("没有记录的流水号，需要从头开始注册");
     router.push("/reg");
   }
 });
@@ -114,13 +112,13 @@ const emailForm = reactive<EmailForm>({
 
 const handleGetCode = async () => {
   if (!emailForm.email) {
-    message.info("请输入邮箱");
+    Message.info("请输入邮箱");
     return;
   }
   setGeting(true);
   try {
     const res = await email.getCode({ email: emailForm.email });
-    message.success(res.message);
+    Message.success(res.message);
     timer.reset();
     timer.start();
     // eslint-disable-next-line
@@ -131,10 +129,10 @@ const handleGetCode = async () => {
   }
 };
 
-const handleStepEmail = async (emailForm: EmailForm) => {
+const handleStepEmail = async (values: Record<string, any>) => {
   setLoading(true);
   try {
-    const res = await reg.postEmailForm(emailForm);
+    const res = await reg.postEmailForm(values as EmailForm);
     localStorage.reg_step = 2;
     router.push(res.data.url);
     // eslint-disable-next-line
@@ -145,7 +143,7 @@ const handleStepEmail = async (emailForm: EmailForm) => {
   }
 };
 
-const rules: Record<string, Rule[]> = {
+const rules: Record<string, FieldRule | FieldRule[]> = {
   email: [
     {
       required: true,
@@ -165,12 +163,4 @@ const rules: Record<string, Rule[]> = {
 };
 </script>
 
-<style>
-#code-row {
-  display: flex;
-  column-gap: 4px;
-}
-#btn-row {
-  justify-self: flex-end;
-}
-</style>
+<style></style>

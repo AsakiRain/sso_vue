@@ -1,17 +1,23 @@
 <template>
   <div id="reg-page">
     <div class="reg-content" v-if="$router.currentRoute.value.meta.step == 0">
-      <div class="wizard-wrapper border-l border-l-solid border-l-light">
+      <div
+        class="wizard-wrapper border-l border-l-solid border-l-light dark:(border-l-dark)"
+      >
         <a-empty />
       </div>
       <div class="reg-wizard">
         <div class="mb-3">
-          <div class="text-2xl font-bold">朋友船统一身份认证平台</div>
+          <div class="text-2xl font-bold text-title dark:(text-dark-title)">
+            朋友船统一身份认证平台
+          </div>
           <div class="text-xl italic text-subtext">注册向导</div>
         </div>
         <div class="flex-grow text-base flex flex-col">
           <template v-if="resume">
-            <div class="flex-grow">
+            <div
+              class="flex-grow text-passage dark:(text-dark-passage) leading-8"
+            >
               <p>你已经有一个流水号了：</p>
               <p>
                 <code>{{ reg_serial }}</code>
@@ -25,7 +31,7 @@
               <p>如果你想用现有的流水号完成注册，请点击<code>继续注册</code></p>
               <p>如果你想获取新的流水号重新注册，请点击<code>重新开始</code></p>
             </div>
-            <div class="wizard-btn">
+            <div class="flex gap-x-2">
               <a-button type="primary" @click="handleResumeReg">
                 继续注册
               </a-button>
@@ -40,7 +46,9 @@
             </div>
           </template>
           <template v-else>
-            <div class="flex-grow">
+            <div
+              class="flex-grow text-passage dark:(text-dark-passage) leading-8"
+            >
               <p>欢迎注册<code>朋友船统一身份认证平台</code>账号</p>
               <p>
                 为了基于<code>QQ号</code>和<code>Minecraft账号</code>实现功能，需要在注册阶段就<code>完成认证</code>，因此整个注册流程会比较长
@@ -95,8 +103,7 @@ import reg from "@/api/reg";
 import { findStepName } from "@/utils/useRegStep";
 
 const current = computed(() => {
-  const to = router.currentRoute.value.meta.step as number;
-  return to - 1;
+  return router.currentRoute.value.meta.step as number;
 });
 
 const resume = computed(() => {
@@ -145,7 +152,7 @@ const handleRestartReg = async () => {
 </script>
 <style lang="css">
 code {
-  @apply mx-[1px] py-[3px] px-[6px] text-baseborder border-solod border-[#f0f0f0] bg-[#f2f4f5] text-passage rounded;
+  @apply mx-0.5 py-0.5 px-1 text-base rounded text-code bg-code dark:(text-dark-code bg-dark-code);
 }
 
 #reg-page {
@@ -153,17 +160,17 @@ code {
 }
 
 .reg-content {
-  @apply w-[800px] h-[558px] p-12 flex bg-light;
+  @apply w-[800px] h-[558px] p-12 flex bg-light dark:(bg-dark);
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
 }
 
 .step-wrapper,
 .wizard-wrapper {
-  @apply flex-shrink-0 flex flex-col justify-center w-[150px] border-r border-r-solid border-r-light;
+  @apply flex-shrink-0 flex flex-col justify-center w-[150px] border-r border-r-solid border-r-light dark:(border-r-dark);
 }
 
 .step-empty {
-  @apply flex flex-col justify-center border-l border-l-solid border-l-light;
+  @apply flex flex-col justify-center border-l border-l-solid border-l-light dark:(border-l-dark);
 }
 
 .reg-step,
@@ -180,7 +187,7 @@ code {
 }
 
 .step-title {
-  @apply mb-8;
+  @apply mb-8 text-title dark:(text-dark-title);
 }
 
 .step-content {
@@ -188,7 +195,7 @@ code {
 }
 
 .step-description {
-  @apply text-lg;
+  @apply text-lg text-passage dark:(text-dark-passage);
 }
 
 .flex-padder {
