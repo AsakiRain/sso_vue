@@ -105,6 +105,7 @@ const accountForm = reactive<AccountForm>({
   serial: localStorage.reg_serial,
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handleStepAcount = async (values: Record<string, any>) => {
   setLoading(true);
   try {

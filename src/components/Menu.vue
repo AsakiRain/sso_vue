@@ -7,9 +7,7 @@
     >
       菜单
     </div>
-    <div
-      class="flex flex-col items-stretch text-base"
-    >
+    <div class="flex flex-col items-stretch text-base">
       <router-link class="rain-link rain-block-link" to="/">{{
         $t("route.home")
       }}</router-link>

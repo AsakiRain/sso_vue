@@ -79,7 +79,7 @@ import { IconUser, IconLock } from "@arco-design/web-vue/es/icon";
 import useSwitch from "@/utils/useSwitch";
 import useUserStore from "@/store/user";
 import { useRouter } from "vue-router";
-import { FieldRule, ValidatedError } from "@arco-design/web-vue";
+import { FieldRule } from "@arco-design/web-vue";
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -90,6 +90,7 @@ const loginForm = reactive<LoginForm>({
   password: "",
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handeLogin = async (values: Record<string, any>) => {
   setLoading(true);
   if (await userStore.login(values as LoginForm)) {

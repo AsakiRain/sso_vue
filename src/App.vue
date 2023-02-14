@@ -10,9 +10,10 @@ import enUS from "@arco-design/web-vue/es/locale/lang/en-us";
 
 import useLocale from "@/utils/useLocale";
 import { useDark } from "@vueuse/core";
+import { ArcoLang } from "@arco-design/web-vue/es/locale/interface";
 const { currentLocale } = useLocale();
 
-const locales: Record<string, any> = {
+const locales: Record<string, ArcoLang> = {
   "zh-CN": zhCN,
   "en-US": enUS,
 };

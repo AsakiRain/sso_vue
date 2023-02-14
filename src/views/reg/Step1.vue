@@ -79,6 +79,7 @@ const tosForm = reactive<TosForm>({
   serial: localStorage.reg_serial,
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handleStepTos = async (values: Record<string, any>) => {
   setLoading(true);
   try {
