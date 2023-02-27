@@ -28,7 +28,7 @@ onMounted(() => {
   if (isDark.value) document.body.setAttribute("arco-theme", "dark");
 });
 </script>
-<style lang="css">
+<style lang="scss">
 * {
   @apply box-border font-sans;
 }

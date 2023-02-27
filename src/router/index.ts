@@ -45,6 +45,29 @@ const routes: Array<RouteRecordRaw> = [
           step: 3,
         },
       },
+      {
+        path: "flow/4",
+        name: "RegStep4",
+        component: () => import("@/views/reg/Step4.vue"),
+        meta: {
+          title: "route.reg.step4",
+          step: 4,
+        },
+      },
+    ],
+  },
+  {
+    path: "/oauth",
+    name: "OAuth",
+    component: () => import("@/views/oauth/index.vue"),
+    meta: {},
+    children: [
+      {
+        path: "ms",
+        name: "OAuthMs",
+        component: () => import("@/views/oauth/ms/index.vue"),
+        meta: {},
+      },
     ],
   },
   {

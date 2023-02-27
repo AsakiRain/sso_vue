@@ -79,15 +79,15 @@ const postAccountForm = async (
   return res;
 };
 
-const getMsLink = async (serialForm: SerialForm): Promise<MyRes<MsLinkRes>> => {
-  const res = await apiPost<MsLinkRes>("reg/flow/4", serialForm);
+const getMsLink = async (serialForm: SerialForm): Promise<MsLinkRes> => {
+  const res = await apiPost<MsLinkRes>("reg/flow/4/link", serialForm);
   if (res.code !== 20000) {
     Message.error(res.message);
     checkExistence(res);
     checkMisMatch(res);
     return Promise.reject(res);
   }
-  return res;
+  return res.data;
 };
 
 const getMsQuery = async (
@@ -116,4 +116,12 @@ const postMsForm = async (
   return res;
 };
 
-export default { getSerial, postTosForm, postEmailForm, postAccountForm };
+export default {
+  getSerial,
+  postTosForm,
+  postEmailForm,
+  postAccountForm,
+  getMsLink,
+  getMsQuery,
+  postMsForm,
+};

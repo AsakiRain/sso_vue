@@ -36,7 +36,7 @@
                 继续注册
               </a-button>
               <a-popconfirm
-                title="确定要重新开始注册吗？"
+                content="确定要重新开始注册吗？"
                 ok-text="确认"
                 cancel-text="取消"
                 @confirm="handleRestartReg"
@@ -150,7 +150,7 @@ const handleRestartReg = async () => {
   location.reload();
 };
 </script>
-<style lang="css">
+<style lang="scss">
 code {
   @apply mx-0.5 py-0.5 px-1 text-base rounded text-code bg-code dark:(text-dark-code bg-dark-code);
 }

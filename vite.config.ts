@@ -6,6 +6,7 @@ import WindiCSS from "vite-plugin-windicss";
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
+    host: "localhost",
     open: false,
     port: 5000,
   },
@@ -31,5 +32,9 @@ export default defineConfig({
     ],
     extensions: [".ts", ".js"],
   },
+  css: {
+    preprocessorOptions: {
+      scss: {},
+    },
+  },
 });
-
