@@ -90,9 +90,7 @@ const getMsLink = async (serialForm: SerialForm): Promise<MsLinkRes> => {
   return res.data;
 };
 
-const getMsQuery = async (
-  serialForm: SerialForm
-): Promise<MyRes<MsQueryRes>> => {
+const getMsQuery = async (serialForm: SerialForm): Promise<MsQueryRes> => {
   const res = await apiPost<MsQueryRes>("reg/flow/4/query", serialForm);
   if (res.code !== 20000) {
     Message.error(res.message);
@@ -100,7 +98,7 @@ const getMsQuery = async (
     checkMisMatch(res);
     return Promise.reject(res);
   }
-  return res;
+  return res.data;
 };
 
 const postMsForm = async (
