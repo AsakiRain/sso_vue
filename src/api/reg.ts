@@ -8,6 +8,7 @@ import type {
   MsLinkRes,
   MsOauthForm,
   MsQueryRes,
+  MsRes,
   SerialForm,
   SerialRes,
   TosForm,
@@ -101,10 +102,21 @@ const getMsQuery = async (serialForm: SerialForm): Promise<MsQueryRes> => {
   return res.data;
 };
 
-const postMsForm = async (
+const postMsStart = async (
   msOauthForm: MsOauthForm
 ): Promise<MyRes<AccountRes>> => {
-  const res = await apiPost<AccountRes>("reg/flow/4", msOauthForm);
+  const res = await apiPost<AccountRes>("reg/flow/4/start", msOauthForm);
+  if (res.code !== 20000) {
+    Message.error(res.message);
+    checkExistence(res);
+    checkMisMatch(res);
+    return Promise.reject(res);
+  }
+  return res;
+};
+
+const postMsForm = async (serialForm: SerialForm): Promise<MyRes<MsRes>> => {
+  const res = await apiPost<MsRes>("reg/flow/4/start", serialForm);
   if (res.code !== 20000) {
     Message.error(res.message);
     checkExistence(res);
@@ -121,5 +133,6 @@ export default {
   postAccountForm,
   getMsLink,
   getMsQuery,
+  postMsStart,
   postMsForm,
 };

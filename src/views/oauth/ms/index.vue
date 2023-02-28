@@ -20,6 +20,10 @@
         <code>{{ reg_serial }}</code>
       </div>
     </div>
+    <div class="my-2 flex gap-x-3">
+      <a-progress :steps="8" :percent="percent" />
+      <a-spin />
+    </div>
     <div class="my-2">
       <a-button type="primary" long @click="handleLinkStart">
         点击启动流程（测试用）
@@ -44,6 +48,8 @@ const ms_state = ref<string>("");
 const ms_token = ref<string>("");
 const ms_query = ref<MsQueryRes>();
 const queryLog = ref<string>("");
+const percent = ref<number>(0);
+
 const reg_serial = computed<string>(() => {
   return localStorage.reg_serial;
 });
@@ -68,7 +74,7 @@ onMounted(async () => {
 
 const handleLinkStart = async () => {
   try {
-    const res = await reg.postMsForm({
+    const res = await reg.postMsStart({
       serial: reg_serial.value,
       ms_state: ms_state.value,
       ms_token: ms_token.value,

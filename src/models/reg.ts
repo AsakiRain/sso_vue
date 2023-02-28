@@ -112,6 +112,10 @@ export interface MsQueryRes {
   };
 }
 
+export interface MsRes {
+  url: string;
+}
+
 export interface QqRes {
   url: string;
 }

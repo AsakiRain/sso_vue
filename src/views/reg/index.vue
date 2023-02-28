@@ -147,7 +147,7 @@ const handleResumeReg = async () => {
 const handleRestartReg = async () => {
   localStorage.removeItem("reg_serial");
   localStorage.removeItem("reg_step");
-  location.reload();
+  window.location.reload();
 };
 </script>
 <style lang="scss">
