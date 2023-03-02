@@ -39,7 +39,7 @@
                 content="确定要重新开始注册吗？"
                 ok-text="确认"
                 cancel-text="取消"
-                @confirm="handleRestartReg"
+                @ok="handleRestartReg"
               >
                 <a-button>重新开始</a-button>
               </a-popconfirm>

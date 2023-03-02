@@ -37,20 +37,24 @@
           class="self-start"
           type="primary"
           html-type="submit"
-          :disabled="isFinished"
+          :disabled="!isSucceed"
           :loading="isLoading"
         >
           下一步
         </a-button>
       </a-form>
     </div>
+    <a-modal :visible="isVisible">
+      <template #title>Minecraft账号信息</template>
+      <textarea ref="minecraft_info_textarea"></textarea>
+    </a-modal>
   </section>
 </template>
 
 <script lang="ts" setup>
 import useSwitch from "@/utils/useSwitch";
 import { Message } from "@arco-design/web-vue";
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import reg from "@/api/reg";
 import { SerialForm } from "@/models/reg";
@@ -58,8 +62,10 @@ import { SerialForm } from "@/models/reg";
 const router = useRouter();
 const { val: isPending, set: setPending } = useSwitch(false);
 const { val: isLoading, set: setLoading } = useSwitch(false);
-const { val: isFinished, set: setFinished } = useSwitch(false);
+const { val: isSucceed, set: setSucceed } = useSwitch(false);
+const { val: isVisible, set: setVisible } = useSwitch(false);
 
+const minecraft_info_textarea = ref();
 const serialForm = reactive<SerialForm>({
   serial: localStorage.reg_serial,
 });
@@ -90,15 +96,27 @@ const handleGoOAuth = async (start: boolean) => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handleStepMs = async (values: Record<string, any>) => {
   setLoading(true);
-  try {
-    const res = await reg.postMsForm(values as SerialForm);
-    localStorage.reg_step = 4;
-    router.push(res.data.url);
-    // eslint-disable-next-line
-  } catch (err: any) {
-    console.log(err.message);
-  } finally {
-    setLoading(false);
+  const res = await reg.postMsForm(values as SerialForm);
+  localStorage.reg_step = 4;
+  router.push(res.data.url);
+  setLoading(false);
+};
+
+const handleCheckState = async () => {
+  const data = await reg.getMsQuery({ serial: localStorage.reg_serial });
+  if (data.ms_state === "succeed") {
+    minecraft_info_textarea.value.value = JSON.stringify(data, null, 2);
+    setVisible(true);
+    setSucceed(true);
+    return;
+  }
+  if (data.ms_state === "running") {
+    Message.info("认证中，请稍后再试");
+    return;
+  }
+  if (data.ms_state === "failed") {
+    Message.info("认证失败，请重新认证");
+    return;
   }
 };
 </script>

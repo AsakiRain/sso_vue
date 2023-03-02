@@ -86,7 +86,7 @@ export interface MsQueryRes {
       keyId: string;
     };
   };
-  ms_end: number;
+  ms_status: string;
   ms_step: number;
   ms_tip: {
     info: string;
