@@ -13,6 +13,7 @@ import type {
   SerialRes,
   TosForm,
   TosRes,
+  QqRes,
 } from "@/models/reg";
 import router from "@/router";
 import { Message } from "@arco-design/web-vue";
@@ -116,7 +117,18 @@ const postMsStart = async (
 };
 
 const postMsForm = async (serialForm: SerialForm): Promise<MyRes<MsRes>> => {
-  const res = await apiPost<MsRes>("reg/flow/4/start", serialForm);
+  const res = await apiPost<MsRes>("reg/flow/4", serialForm);
+  if (res.code !== 20000) {
+    Message.error(res.message);
+    checkExistence(res);
+    checkMisMatch(res);
+    return Promise.reject(res);
+  }
+  return res;
+};
+
+const postQqForm = async (serialForm: SerialForm): Promise<MyRes<MsRes>> => {
+  const res = await apiPost<QqRes>("reg/flow/5", serialForm);
   if (res.code !== 20000) {
     Message.error(res.message);
     checkExistence(res);
@@ -135,4 +147,5 @@ export default {
   getMsStatus,
   postMsStart,
   postMsForm,
+  postQqForm,
 };

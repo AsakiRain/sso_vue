@@ -50,11 +50,6 @@ export interface MsOauthForm {
   ms_state: string;
   ms_token: string;
 }
-export interface MsQueryRes {
-  serial: string;
-  ms_state: string;
-  ms_token: string;
-}
 
 export interface SerialForm {
   serial: string;
@@ -115,7 +110,9 @@ export interface MsStatusRes {
 export interface MsRes {
   url: string;
 }
-
+export interface QqForm {
+  qq: string;
+}
 export interface QqRes {
   url: string;
 }

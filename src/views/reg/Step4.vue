@@ -50,18 +50,19 @@
       </div>
       <div class="step-content" v-else-if="ms_status === 'succeed'">
         <div class="step-description">
-          <div>验证成功</div>
-          <div>账号信息如下</div>
+          <div>
+            你好{{ status_res?.minecraft.minecraft_name }}，你的账号信息如下
+          </div>
         </div>
         <a-form
           class="step-form"
           :model="serialForm"
           @submit-success="handleStepMs"
         >
+          <div class="flex-padder"></div>
           <a-form-item field="serial" label="serial" hide-label class="hidden">
             <a-input v-model="serialForm.serial" />
           </a-form-item>
-          <div class="flex-padder"></div>
           <div class="flex gap-x-2">
             <a-button
               class="self-start"
@@ -148,9 +149,9 @@ const handleStepMs = async (values: Record<string, any>) => {
 };
 
 const handleRetry = () => {
+  updateLink();
   ms_status.value = "idle";
   current_step.value = 0;
-  updateLink();
 };
 
 onMounted(async () => {
