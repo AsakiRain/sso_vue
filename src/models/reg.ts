@@ -60,7 +60,7 @@ export interface SerialForm {
   serial: string;
 }
 
-export interface MsQueryRes {
+export interface MsStatusRes {
   minecraft: {
     minecraft_id: string;
     minecraft_name: string;
