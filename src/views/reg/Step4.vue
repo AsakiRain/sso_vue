@@ -4,7 +4,7 @@
       <div class="step-sub-title">Step4</div>
       <div class="step-main-title">微软验证</div>
     </div>
-    <div class="step-content">
+    <div class="step-content" v-if="ms_status === 'idle'">
       <div class="step-description">
         <div>请点击启动验证流程，根据指引登录微软账号并授权</div>
         <div>认证完成后，回到这里点击更新认证状态</div>
@@ -19,9 +19,6 @@
           <div class="flex flex-col gap-y-4 w-80 mt-8">
             <a-button long type="primary" @click="() => handleGoOAuth(true)">
               启动微软验证流程
-            </a-button>
-            <a-button long type="primary" @click="handleCheckState">
-              检查认证状态
             </a-button>
             <a-button long @click="() => handleGoOAuth(false)">
               清除浏览器登录信息
@@ -44,17 +41,46 @@
         </a-button>
       </a-form>
     </div>
-    <a-modal :visible="isVisible">
-      <template #title>Minecraft账号信息</template>
-      <textarea ref="minecraft_info_textarea"></textarea>
-    </a-modal>
+    <div class="step-content" v-if="ms_status === 'running'">
+      <div class="step-description">
+        <div>验证流程运行中</div>
+      </div>
+      <div class="flex gap-x-3 items-center my-2">
+        <a-progress size="large" :percent="percent" status="success" />
+      </div>
+      <div class="flex flex-col gap-y-2 my-2">
+        <div class="text-base text-subtext dark:(text-dark-subtext)">
+          <div v-for="(step, index) in current_step" :key="index">
+            {{ $t(`oauth.ms.step.succeed.${index}`) }}
+          </div>
+        </div>
+        <div
+          v-if="current_step < 8"
+          class="flex items-center gap-x-2 font-bold text-base text-title dark:(text-dark-title)"
+        >
+          <a-spin :size="24"></a-spin>
+          <div>{{ $t(`oauth.ms.step.running.${current_step}`) }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="step-content" v-if="ms_status === 'succeed'">
+      <div class="step-description">
+        <div>验证成功</div>
+        <div>账号信息如下</div>
+      </div>
+    </div>
+    <div class="step-content" v-if="ms_status === 'failed'">
+      <div class="step-description">
+        <div>流程发生错误</div>
+      </div>
+    </div>
   </section>
 </template>
 
 <script lang="ts" setup>
 import useSwitch from "@/utils/useSwitch";
 import { Message } from "@arco-design/web-vue";
-import { onMounted, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import reg from "@/api/reg";
 import { SerialForm } from "@/models/reg";
@@ -62,10 +88,14 @@ import { SerialForm } from "@/models/reg";
 const router = useRouter();
 const { val: isPending, set: setPending } = useSwitch(false);
 const { val: isLoading, set: setLoading } = useSwitch(false);
-const { val: isSucceed, set: setSucceed } = useSwitch(false);
-const { val: isVisible, set: setVisible } = useSwitch(false);
 
-const minecraft_info_textarea = ref();
+const ms_status = ref<string>("idle");
+const current_step = ref<number>(0);
+const percent = computed<number>(() => {
+  if (ms_status.value === "succeed") return 1;
+  return parseFloat((current_step.value / 7).toFixed(2));
+});
+
 const serialForm = reactive<SerialForm>({
   serial: localStorage.reg_serial,
 });
@@ -100,24 +130,6 @@ const handleStepMs = async (values: Record<string, any>) => {
   localStorage.reg_step = 4;
   router.push(res.data.url);
   setLoading(false);
-};
-
-const handleCheckState = async () => {
-  const data = await reg.getMsQuery({ serial: localStorage.reg_serial });
-  if (data.ms_state === "succeed") {
-    minecraft_info_textarea.value.value = JSON.stringify(data, null, 2);
-    setVisible(true);
-    setSucceed(true);
-    return;
-  }
-  if (data.ms_state === "running") {
-    Message.info("认证中，请稍后再试");
-    return;
-  }
-  if (data.ms_state === "failed") {
-    Message.info("认证失败，请重新认证");
-    return;
-  }
 };
 </script>
 
