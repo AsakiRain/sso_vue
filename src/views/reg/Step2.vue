@@ -162,6 +162,10 @@ const rules: Record<string, FieldRule | FieldRule[]> = {
       required: true,
       message: "请输入验证码",
     },
+    {
+      length: 6,
+      message: "请输入正确的验证码",
+    },
   ],
 };
 </script>
